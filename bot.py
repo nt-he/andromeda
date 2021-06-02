@@ -1,26 +1,16 @@
 import discord
 from discord.ext import commands
-
 from dotenv import load_dotenv
-
 import os
 from os import listdir
 from os.path import isfile, join
-
-import sys, traceback
+import traceback
 
 def get_prefix(bot, message):
-    """A callable Prefix for our bot. This could be edited to allow per server prefixes."""
-
-    # Notice how you can use spaces in prefixes. Try to keep them simple though.
     prefixes = ['o.']
-
-    # Check to see if we are outside of a guild. e.g DM's etc.
     if not message.guild:
-        # Only allow ? to be used in DMs
         return 'o.'
 
-    # If we are in a guild, we allow for the user to mention us or use any of the prefixes in our list.
     return commands.when_mentioned_or(*prefixes)(bot, message)
 
 cogs_dir = "cogs"
@@ -39,7 +29,6 @@ if __name__ == '__main__':
 
 @bot.event
 async def on_ready():
-    """http://discordpy.readthedocs.io/en/rewrite/api.html#discord.on_ready"""
     print(f'\n\nLogged in as: {bot.user.name} - {bot.user.id}\nVersion: {discord.__version__}\n')
 
 load_dotenv()
