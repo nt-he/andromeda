@@ -1,3 +1,5 @@
 .env
 Lavalink.jar
 application.yml
+song.mp3
+/logs/
