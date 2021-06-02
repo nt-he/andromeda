@@ -4,3 +4,4 @@ application.yml
 song.mp3
 /logs/
 botdev.code-workspace
+cogs/__pycache__/

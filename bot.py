@@ -10,13 +10,11 @@ def get_prefix(bot, message):
     prefixes = ['o.']
     if not message.guild:
         return 'o.'
-
     return commands.when_mentioned_or(*prefixes)(bot, message)
 
 cogs_dir = "cogs"
 intents = discord.Intents.default()
 intents.members = True
-
 bot = commands.Bot(activity=discord.Streaming(name="Doing bot things", url="https://twitch.tv/0scie"), command_prefix=get_prefix, status=discord.Status.dnd, description="Bot desc", intents=intents)
 
 if __name__ == '__main__':
@@ -30,6 +28,5 @@ if __name__ == '__main__':
 @bot.event
 async def on_ready():
     print(f'\n\nLogged in as: {bot.user.name} - {bot.user.id}\nVersion: {discord.__version__}\n')
-
 load_dotenv()
 bot.run(os.getenv("DISCORD_TOKEN"), bot=True, reconnect=True)

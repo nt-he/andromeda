@@ -14,6 +14,9 @@ class Errors(commands.Cog):
         if isinstance(error, commands.DisabledCommand):
             await logchannel.send(f"<:cross:848374065550458920> - Error: Command is disabled")
             await ctx.send(f"<:cross:848374065550458920> - Sorry, that command is disabled.")
+        elif isinstance(error, commands.MissingRequiredArgument):
+            await logchannel.send(f"<:cross:848374065550458920> - Error: Missing Required Arguments")
+            await ctx.send(f"<:cross:848374065550458920> - Sorry, you forgot some important information when running that command.")
         elif isinstance(error, commands.CommandNotFound):
             await logchannel.send(f"<:cross:848374065550458920> - Error: Command cannot be found")
             await ctx.send(f"<:cross:848374065550458920> - Sorry, that command is not a valid command.")

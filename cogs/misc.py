@@ -75,11 +75,9 @@ class Misc(commands.Cog):
         data = str(data)
         m, k = data.split("'", 1)
         k = k.strip("'")
-        embed = discord.Embed(title="The Mii you wanted", color=discord.Color.random())
-        embed.set_image(url=f"https://miicontestp.wii.rc24.xyz/cgi-bin/render.cgi?data={k}")
-        await ctx.send(embed=embed)
+        await ctx.send("The Mii you asked for:")
+        await ctx.send("https://miicontestp.wii.rc24.xyz/cgi-bin/render.cgi?data={k}")
         os.remove("./cmoc.mii")
-    
     @mii.error
     async def mii_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
