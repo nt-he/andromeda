@@ -7,6 +7,7 @@ import requests
 import urllib
 import binascii
 from bs4 import BeautifulSoup
+import datetime
 
 class Misc(commands.Cog):
     """Commands that don't really have a category that fits them."""
@@ -58,6 +59,7 @@ class Misc(commands.Cog):
 
     @commands.command()
     async def mii(self, ctx, entry_number):
+        """Gets a Mii with a CMOC code"""
         global data
         link = requests.get(f"https://miicontestp.wii.rc24.xyz/cgi-bin/htmlsearch.cgi?query={entry_number}").text
         bs = BeautifulSoup(link, "html.parser")
@@ -83,5 +85,15 @@ class Misc(commands.Cog):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send("Please send a CMOC code. Get one from https://miicontestp.wii.rc24.xyz")
     
+    @commands.command()
+    async def suggest(self, ctx, *, suggestion):
+        """Give me a suggestion for my site. Please specify what the suggestion is for."""
+        await ctx.message.delete()
+        await ctx.send("Sent suggestion to <#844365106317099038>", delete_after=5)
+        meta = self.bot.get_channel(844365106317099038)
+        embed = discord.Embed(color=discord.Color.blurple(), description=suggestion, timestamp=datetime.datetime.today())
+        embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
+        await meta.send("<@729135459405529118>", embed=embed)
+
 def setup(bot):
     bot.add_cog(Misc(bot))

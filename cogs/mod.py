@@ -73,7 +73,8 @@ class Moderation(commands.Cog):
     async def unmute(self, ctx, member: discord.Member):
         """Unmutes the mentioned member
         nt,he only"""
-        if ctx.guild != 804449200921509913:
+        if ctx.guild.id != 804449200921509913:
+            await ctx.send("This command can only be ran in `no thoughts, head empty`")
             return
         muterole = discord.utils.get(ctx.guild.roles, name="muted")
         if muterole in member.roles:
