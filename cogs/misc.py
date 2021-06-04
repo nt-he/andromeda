@@ -1,5 +1,5 @@
 import discord
-from discord.enums import NotificationLevel
+from discord.enums import ChannelType, NotificationLevel
 from discord.ext import commands
 import time
 import os
@@ -94,6 +94,74 @@ class Misc(commands.Cog):
         embed = discord.Embed(color=discord.Color.blurple(), description=suggestion, timestamp=datetime.datetime.today())
         embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
         await meta.send("<@729135459405529118>", embed=embed)
+
+    @commands.command()   
+    async def guildinfo(self, ctx):
+        """Get information on the Server you are in."""
+        if ctx.message.guild == None:
+            await ctx.send("I can only do this in servers.")
+            return
+        name = str(ctx.guild.name)
+        desc = str(ctx.guild.description)
+        createdtime = ctx.guild.created_at.strftime("%d/%m/%Y - %H:%M:%S")
+        shardid = str(ctx.guild.shard_id)
+        owner = str(ctx.guild.owner)
+        id = str(ctx.guild.id)
+        region = str(ctx.guild.region)
+        memberCount = str(ctx.guild.member_count)
+        boostamount = str(ctx.guild.premium_subscription_count)
+        boostlevel = str(ctx.guild.premium_tier)
+        icon = str(ctx.guild.icon_url)
+        mfalevel = str(ctx.guild.mfa_level)
+        notifications = str(ctx.guild.default_notifications)
+        systemchan = str(ctx.guild.system_channel)
+        maxmembers = str(ctx.guild.max_members)
+
+        if notifications == "NotificationLevel.all_messages":
+            notificationsstr = "All Messages"
+        elif notifications == "NotificationLevel.only_mentions":
+            notificationsstr = "Mentions Only"
+
+        if region == "europe":
+            region = ":flag_eu: Europe"
+        elif region == "us-west":
+            region = ":flag_us: US West"
+
+        if boostlevel == "1":
+            boostlevelstr = "Tier 1"
+        elif boostlevel == "2":
+            boostlevelstr = "Tier 2"
+        elif boostlevel == "3":
+            boostlevelstr = "Tier 3"
+        else:
+            boostlevelstr = "Tier 0"
+
+        if boostamount == "1":
+            boostsuffix = " Boost"
+        else:
+            boostsuffix = " Boosts"
+
+        if mfalevel == "1":
+            mfalevelstr = "Verification On"
+        else:
+            mfalevelstr = "No Verification"
+
+        embed1 = discord.Embed(title=name + " Server Information", description=desc, color=discord.Color.blurple())
+        embed1.set_thumbnail(url=icon)
+
+        embed1.add_field(name="Owner", value=owner, inline=True)
+        embed1.add_field(name="Server ID", value=id, inline=True)
+        embed1.add_field(name="Server Region", value=region, inline=True)
+        embed1.add_field(name="Member Count", value=memberCount, inline=True)
+        embed1.add_field(name="Created at:", value=createdtime)
+        embed1.add_field(name="Boost Level", value=boostlevelstr)
+        embed1.add_field(name="Shard ID", value=shardid)
+        embed1.add_field(name="Boost Count", value=boostamount + boostsuffix)
+        embed1.add_field(name="2FA Verification", value=mfalevelstr)
+        embed1.add_field(name="Notification Settings", value=notificationsstr)
+        embed1.add_field(name="System Channel", value="#" + systemchan)
+        embed1.add_field(name="Max Members", value=maxmembers, inline=True)
+        await ctx.send(embed=embed1)
 
 def setup(bot):
     bot.add_cog(Misc(bot))

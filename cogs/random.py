@@ -29,4 +29,4 @@ class Random(commands.Cog):
         await logchannel.send(f"<:empty:848375084577325068> - A sandwich was added to the sandwich folder (`{imageName}`)")
 
 def setup(bot):
-    bot.add_cog(Random(bot))
+    bot.add_cog(Random(bot)) 
