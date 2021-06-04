@@ -146,7 +146,7 @@ class Misc(commands.Cog):
         else:
             mfalevelstr = "No Verification"
 
-        embed1 = discord.Embed(title=name + " Server Information", description=desc, color=discord.Color.blurple())
+        embed1 = discord.Embed(title=f"{name} Server Information", description=desc, color=discord.Color.blurple())
         embed1.set_thumbnail(url=icon)
 
         embed1.add_field(name="Owner", value=owner, inline=True)
