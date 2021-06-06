@@ -23,7 +23,7 @@ class Random(commands.Cog):
     @commands.command()
     async def postsandwich(self, ctx, *, arg):
         """Posts a sandwich to the sandwich folder"""
-        await ctx.send("This command has (and original was from) Img.Bot\nhttps://www.thediamondk.com/bot.html")
+        await ctx.send("This command has (and originally was from) Img.Bot\nhttps://www.thediamondk.com/bot.html")
 
 
     @commands.command()

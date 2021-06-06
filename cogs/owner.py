@@ -79,17 +79,6 @@ class Owner(commands.Cog):
         await ctx.send("Sent to console.\n**```" + "".join(args) + "```**", delete_after=5)
         print("".join(args))
 
-    @commands.command(hidden=True)
-    @commands.is_owner()
-    async def guildlist(self, ctx):
-        """Sends all the guilds the bot is in"""
-        for guild in self.bot.guilds:
-            if guild.member_count == "1":
-                memberstr = "member"
-            else:
-                memberstr = "members"
-            await ctx.send(f"ID: {guild.id} - {guild.name} | {guild.member_count} {memberstr}", delete_after=5)
-
     @commands.command()
     @commands.is_owner()
     async def remind(self, ctx, *, content):
