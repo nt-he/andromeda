@@ -21,7 +21,7 @@ class Status(commands.Cog):
         message = await ctx.send("What would you like me to set my status to?", components=components)
         while True:
             try:
-                interaction = await self.bot.wait_for("button_click", timeout=60, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id) 
+                interaction = await self.bot.wait_for("button_click", timeout=10, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id) 
             except:
                 await message.delete()
                 await ctx.send("You timed out and the status was not changed", delete_after=5)
@@ -41,6 +41,6 @@ class Status(commands.Cog):
             if interaction.component.id == "offline":
                 await self.bot.change_presence(activity=discord.Game(name="Doing bot things"), status=discord.Status.offline)
                 await interaction.respond(content="<:status:848563270134792242> - Status changed!")
-
+            
 def setup(bot):
     bot.add_cog(Status(bot))

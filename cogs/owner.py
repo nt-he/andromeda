@@ -1,7 +1,8 @@
 import discord
 from discord.ext import commands
-
-
+from os import listdir
+from os.path import join, isfile
+from discord_components import Button
 class Owner(commands.Cog):
     """Commands that only the owner of the bot can see.
     Mainly just cog maintenence stuff."""
@@ -13,20 +14,25 @@ class Owner(commands.Cog):
     # Hidden means it won't show up on the default help.
     @commands.command(name='load', hidden=True)
     @commands.is_owner()
-    async def cogload(self, ctx, *, cog: str):
+    async def cogload(self, ctx):
         logchannel = self.bot.get_channel(848362560255950888)
         """Command which Loads a Module.
         Remember to use dot path. e.g: cogs.owner"""
-
+        components = []
+        for extension in [f.replace('.py', '') for f in listdir('cogs') if isfile(join('cogs', f))]:
+            components.append(Button(label=extension, style=3))
+        message = await ctx.send(f'What extension do you want to load, master <@{self.bot.owner.id}>?')
         try:
-            self.bot.load_extension(cog)
+            interaction = await self.bot.wait_for("button_click", timeout=10, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id) 
+        except:
+            await message.delete()
+            await ctx.send("You timed out and no cogs were loaded.", delete_after=5)
+        try:
+            self.bot.load_extension("cogs." + interaction.component.label)
         except Exception as e:
             await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}')
-            await logchannel.send(f'<:cross:848374065550458920> - {type(e).__name__} - {e}')
-
         else:
             await ctx.send('**`SUCCESS`**')
-            await logchannel.send('<:check:848374065366433852> - Loading cog success')
 
     @commands.command(name='unload', hidden=True)
     @commands.is_owner()
