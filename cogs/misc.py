@@ -92,7 +92,7 @@ class Misc(commands.Cog):
     
     @commands.command()
     async def suggest(self, ctx, *, suggestion):
-        """Give me a suggestion for my site. Please specify what the suggestion is for."""
+        """Give me a suggestion for my site, twitch, bot or server. Please specify what the suggestion is for."""
         await ctx.message.delete()
         await ctx.send("Sent suggestion to <#844365106317099038>", delete_after=5)
         meta = self.bot.get_channel(844365106317099038)

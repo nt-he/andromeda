@@ -7,3 +7,4 @@ botdev.code-workspace
 cogs/__pycache__/
 sandwiches/
 miis/
+.gitignore
