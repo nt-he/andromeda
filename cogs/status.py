@@ -29,26 +29,31 @@ class Status(commands.Cog):
             await self.bot.change_presence(activity=discord.Streaming(name="Doing bot things", url="https://www.youtube.com/watch?v=uVRHh8Jxtp0"), status=discord.Status.dnd)
             await interaction.respond(content="<:status:848563270134792242> - Status changed!")
             await logchannel.send("<:status:848563270134792242> - Status changed to **`Streaming`**")
+            await message.delete()
         if interaction.component.id == "dnd":
             logchannel = self.bot.get_channel(848362560255950888)
             await self.bot.change_presence(activity=discord.Game(name="Doing bot things"), status=discord.Status.dnd)
             await interaction.respond(content="<:status:848563270134792242> - Status changed!")
             await logchannel.send("<:status:848563270134792242> - Status changed to **`Do not Disturb`**")
+            await message.delete()
         if interaction.component.id == "idle":
             logchannel = self.bot.get_channel(848362560255950888)
             await self.bot.change_presence(activity=discord.Game(name="Doing bot things"), status=discord.Status.idle)
             await interaction.respond(content="<:status:848563270134792242> - Status changed!")
             await logchannel.send("<:status:848563270134792242> - Status changed to **`Idle`**")
+            await message.delete()
         if interaction.component.id == "online":
             logchannel = self.bot.get_channel(848362560255950888)
             await self.bot.change_presence(activity=discord.Game(name="Doing bot things"), status=discord.Status.online)
             await interaction.respond(content="<:status:848563270134792242> - Status changed!")
             await logchannel.send("<:status:848563270134792242> - Status changed to **`Online`**")
+            await message.delete()
         if interaction.component.id == "offline":
             logchannel = self.bot.get_channel(848362560255950888)
             await self.bot.change_presence(activity=discord.Game(name="Doing bot things"), status=discord.Status.offline)
             await interaction.respond(content="<:status:848563270134792242> - Status changed!")
             await logchannel.send("<:status:848563270134792242> - Status changed to **`Offline`**")
+            await message.delete()
 
 def setup(bot):
     bot.add_cog(Status(bot))
