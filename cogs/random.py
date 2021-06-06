@@ -4,7 +4,7 @@ import os
 import random
 
 from discord.ext.commands.errors import CommandRegistrationError
-
+from discord_components import Button
 class Random(commands.Cog):
     """Stuff so random that it cant be in misc"""
     def __init__(self, bot):
@@ -22,11 +22,23 @@ class Random(commands.Cog):
     async def postsandwich(self, ctx, *, arg):
         """Posts a sandwich to the sandwich folder"""
         imageName = os.path.join('sandwiches/', f"{arg}.png")
-        await ctx.message.attachments[0].save(imageName)
         await ctx.message.delete()
-        await ctx.send(f'Posted your sandwich', delete_after=5)
+        message = await ctx.send(f'Are you sure?', components=[Button(label="No"), Button(label="Yes")])
         logchannel = self.bot.get_channel(848362560255950888)
         await logchannel.send(f"<:empty:848375084577325068> - A sandwich was added to the sandwich folder (`{imageName}`)")
+        try:
+            interaction = await self.bot.wait_for("button_click", timeout=5)
+        except:
+            await ctx.send("You timed out and your sandwich was not posted.")
+        await interaction.respond(6)
+        if interaction.component.label == "Yes":
+            await interaction.respond(content="Posted your sandwich")
+            await message.delete()
+            await ctx.message.attachments[0].save(imageName)
+        if interaction.component.label == "No":
+            await interaction.respond(content="Your sandwich was not posted.")
+            await message.delete()
+
 
     @commands.command()
     async def postmii(self, ctx):

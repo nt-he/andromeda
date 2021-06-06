@@ -6,6 +6,8 @@ from os import listdir
 from os.path import isfile, join
 import traceback
 
+from discord_components import DiscordComponents
+
 def get_prefix(bot, message):
     prefixes = ['o.']
     if not message.guild:
@@ -28,6 +30,7 @@ if __name__ == '__main__':
 
 @bot.event
 async def on_ready():
+    DiscordComponents(bot)
     print(f'\n\nLogged in as: {bot.user.name} - {bot.user.id}\nVersion: {discord.__version__}\n')
 load_dotenv()
 bot.run(os.getenv("DISCORD_TOKEN"), bot=True, reconnect=True)
