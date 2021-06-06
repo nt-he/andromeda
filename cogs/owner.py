@@ -19,23 +19,34 @@ class Owner(commands.Cog):
         """Command which Loads a Module.
         Remember to use dot path. e.g: cogs.owner"""
         components = []
+        disabled_components = []
         index = 0 # For pangination, which I will implement soon
         for extension in [f.replace('.py', '') for f in listdir('cogs') if isfile(join('cogs', f))]:
             if len(components) == 4:
+                index += 4
                 break
             components.append(Button(label=extension, style=3))
+            disabled_components.append(Button(label=extension, style=3, disabled=False))
+        if index == 4:
+            components.append(Button(label='Next Page', style=1))
         message = await ctx.send(f'What extension do you want to load?', components=components)
         try:
             interaction = await self.bot.wait_for("button_click", timeout=10, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id) 
         except:
             await message.delete()
             await ctx.send("You timed out and no cogs were loaded.", delete_after=5)
-        try:
-            self.bot.load_extension("cogs." + interaction.component.label)
-        except Exception as e:
-            await interaction.respond(content=f'**`ERROR:`** {type(e).__name__} - {e}')
+        if interaction.component.label != 'Next Page':
+            try:
+                self.bot.load_extension("cogs." + interaction.component.label)
+            except Exception as e:
+                await interaction.respond(content=f'**`ERROR:`** {type(e).__name__} - {e}')
+                await message.edit(components=disabled_components)
+            else:
+                await interaction.respond(content=f'**`SUCCESS`**')
+                await message.edit(components=disabled_components)
         else:
-            await interaction.respond(content=f'**`SUCCESS`**')
+            # Pagination
+            pass
 
     @commands.command(name='unload', hidden=True)
     @commands.is_owner()
