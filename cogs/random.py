@@ -21,7 +21,7 @@ class Random(commands.Cog):
     @commands.command()
     async def postsandwich(self, ctx, *, arg):
         """Posts a sandwich to the sandwich folder"""
-        imageName = 'sandwiches/' + arg + '.png'
+        imageName = os.path.join('sandwiches/', f"{arg}.png")
         await ctx.message.attachments[0].save(imageName)
         await ctx.message.delete()
         await ctx.send(f'Posted your sandwich', delete_after=5)
