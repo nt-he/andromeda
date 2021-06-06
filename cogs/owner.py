@@ -21,7 +21,7 @@ class Owner(commands.Cog):
         components = []
         for extension in [f.replace('.py', '') for f in listdir('cogs') if isfile(join('cogs', f))]:
             components.append(Button(label=extension, style=3))
-        message = await ctx.send(f'What extension do you want to load, master <@{self.bot.owner.id}>?')
+        message = await ctx.send(f'What extension do you want to load?', components=components)
         try:
             interaction = await self.bot.wait_for("button_click", timeout=10, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id) 
         except:
