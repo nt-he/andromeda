@@ -40,8 +40,11 @@ class Random(commands.Cog):
     @commands.command()
     async def mii(self, ctx, user: discord.User):
         """Get's a user's Mii."""
-        mii = discord.File(os.path.join("miis/", f"{user.id}.png"))
-        embed = discord.Embed(title="The Mii you Requested", colour=discord.Colour(0xba151b), description=f"Here is <@{user.id}>'s mii")
+        try:
+            mii = discord.File(os.path.join("miis/", f"{user.id}.png"))
+        except:
+            await ctx.send("That person doesn't have a Mii!")
+        embed = discord.Embed(title="The Mii you Requested", colour=discord.Colour(0xba151b), description=f"Here is <@{user.id}>'s Mii")
         embed.set_image(url=f"attachment://{user.id}.png")
         await ctx.send(embed=embed, file=mii)
         
