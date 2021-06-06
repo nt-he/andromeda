@@ -24,17 +24,14 @@ class Random(commands.Cog):
         imageName = os.path.join('sandwiches/', f"{arg}.png")
         await ctx.message.delete()
         message = await ctx.send(f'Are you sure?', components=[Button(label="No"), Button(label="Yes")])
-        logchannel = self.bot.get_channel(848362560255950888)
-        await logchannel.send(f"<:empty:848375084577325068> - A sandwich was added to the sandwich folder (`{imageName}`)")
         try:
-            interaction = await self.bot.wait_for("button_click", timeout=5)
+            interaction = await self.bot.wait_for("button_click", timeout=5, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id)
         except:
             await ctx.send("You timed out and your sandwich was not posted.")
-        await interaction.respond(6)
         if interaction.component.label == "Yes":
             await interaction.respond(content="Posted your sandwich")
-            await message.delete()
             await ctx.message.attachments[0].save(imageName)
+            await message.delete()
         if interaction.component.label == "No":
             await interaction.respond(content="Your sandwich was not posted.")
             await message.delete()
@@ -42,13 +39,22 @@ class Random(commands.Cog):
 
     @commands.command()
     async def postmii(self, ctx):
-        """Posts a mii to the mii folder"""
+        """Posts a Mii to the mii folder"""
         imageName = os.path.join("miis/", f"{ctx.author.id}.png")
-        await ctx.message.attachments[0].save(imageName)
         await ctx.message.delete()
-        await ctx.send(f'Posted your mii', delete_after=5)
-        logchannel = self.bot.get_channel(848362560255950888)
-        await logchannel.send(f"<:empty:848375084577325068> - A mii was added to the mii folder (`{imageName}`)")
+        message = await ctx.send(f'Are you sure?', components=[Button(label="No"), Button(label="Yes")])
+        try:
+            interaction = await self.bot.wait_for("button_click", timeout=5, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id)
+        except:
+            await ctx.send("You timed out and your Mii was not posted.")
+            await message.delete()
+        if interaction.component.label == "Yes":
+            await interaction.respond(content="Posted your Mii")
+            await ctx.message.attachments[0].save(imageName)
+            await message.delete()
+        if interaction.component.label == "No":
+            await interaction.respond(content="Your sandwich was not Mii.")
+            await message.delete()
     @commands.command()
     async def mii(self, ctx, user: discord.User):
         """Get's a user's Mii."""
