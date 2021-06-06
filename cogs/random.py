@@ -53,7 +53,7 @@ class Random(commands.Cog):
             await ctx.message.attachments[0].save(imageName)
             await message.delete()
         if interaction.component.label == "No":
-            await interaction.respond(content="Your sandwich was not Mii.")
+            await interaction.respond(content="Your sandwich was not posted.")
             await message.delete()
     @commands.command()
     async def mii(self, ctx, user: discord.User):
