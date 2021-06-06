@@ -25,7 +25,13 @@ class Listeners(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         channel = self.bot.get_channel(848362560255950888)
-        await channel.send("<:check:848374065366433852> - Bot is online!")
+        await channel.send("<:check:848374065366433852> - Bot is online!\nGuilds:")
+        for guild in self.bot.guilds:
+            if guild.member_count == "1":
+                memberstr = "member"
+            else:
+                memberstr = "members"
+            await channel.send(f"``` - ID: {guild.id} - {guild.name} | {guild.member_count} {memberstr}```")
 
     @commands.Cog.listener()
     async def on_member_join(self, member):

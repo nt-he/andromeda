@@ -8,6 +8,10 @@ import urllib
 import binascii
 from bs4 import BeautifulSoup
 import datetime
+import io
+import contextlib
+import textwrap
+from traceback import format_exception 
 
 class Misc(commands.Cog):
     """Commands that don't really have a category that fits them."""
@@ -58,7 +62,7 @@ class Misc(commands.Cog):
                 await message.send("sans pee pee")
 
     @commands.command()
-    async def mii(self, ctx, entry_number):
+    async def cmoc(self, ctx, entry_number):
         """Gets a Mii with a CMOC code"""
         global data
         link = requests.get(f"https://miicontestp.wii.rc24.xyz/cgi-bin/htmlsearch.cgi?query={entry_number}").text
@@ -69,8 +73,8 @@ class Misc(commands.Cog):
             except AttributeError:
                 pass
 
-        urllib.request.urlretrieve(data, "./cmoc.mii")
-        with open("./cmoc.mii", "rb") as f:
+        urllib.request.urlretrieve(data, "cmoc.mii")
+        with open("cmoc.mii", "rb") as f:
             content = f.read()
 
         data = binascii.hexlify(content)
@@ -79,8 +83,8 @@ class Misc(commands.Cog):
         k = k.strip("'")
         await ctx.send("The Mii you asked for:")
         await ctx.send("https://miicontestp.wii.rc24.xyz/cgi-bin/render.cgi?data={k}")
-        os.remove("./cmoc.mii")
-    @mii.error
+        os.remove("cmoc.mii")
+    @cmoc.error
     async def mii_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send("Please send a CMOC code. Get one from https://miicontestp.wii.rc24.xyz")
@@ -162,6 +166,37 @@ class Misc(commands.Cog):
         embed1.add_field(name="System Channel", value="#" + systemchan)
         embed1.add_field(name="Max Members", value=maxmembers, inline=True)
         await ctx.send(embed=embed1)
+
+    @commands.command()
+    @commands.is_owner()
+    async def remind(self, ctx, *, content):
+        """Reminds me stuff"""
+        await ctx.message.delete()
+        await ctx.send("Sent suggestion to <#845361102530281532>", delete_after=5)
+        meta = self.bot.get_channel(845361102530281532)
+        embed = discord.Embed(color=discord.Color.blurple(), description=content, timestamp=datetime.datetime.today())
+        embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
+        await meta.send("<@729135459405529118>", embed=embed)
+
+
+    @commands.command()
+    async def credits(self, ctx):
+        """Credits ig idk"""
+        pfp = self.bot.user.avatar_url
+        embed = discord.Embed(color=discord.Color.random(), title="Credits", description="People who I've stolen code from, taken ideas from or have helped me in development.")
+        embed.set_author(name="oscie bot 3", icon_url=pfp)
+        embed.add_field(name="People", value=f"<@667563245107937297> - Helped me with time formatting, stole a couple commands from them\n<@650819889434591241> - Assisted me alot with errors and when I couldn't figure out the most stupidest shit ever\n<@302271402277339146> - Took a couple ideas from them (sorry btw)\nhttps://discord.gg/dpy - People there helped me quite a bit\n<@729135459405529118> - My creator, who coded me\n<@264081339316305920> - Telling me how much Python sucks\n<@314142411247058946> - Helping me test some commands\n{ctx.author.mention} - You, for using me")
+        await ctx.send(embed=embed)
+    
+    @commands.command()
+    async def guildlist(self, ctx):
+        """A list of the guilds I am in"""
+        for guild in self.bot.guilds:
+            if guild.member_count == "1":
+                memberstr = "member"
+            else:
+                memberstr = "members"
+            await ctx.send(f"ID: {guild.id} - {guild.name} | {guild.member_count} {memberstr}")
 
 def setup(bot):
     bot.add_cog(Misc(bot))

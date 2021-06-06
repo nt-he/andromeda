@@ -18,9 +18,9 @@ class Moderation(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(ban_members=True)
-    async def ban(self, ctx, member: discord.Member, days=None, *, reason=None):
+    async def ban(self, ctx, member: discord.Member, *, reason=None):
         """Bans the mentioned member"""
-        await member.ban(reason=reason, delete_message_days=days)
+        await member.ban(reason=reason, delete_message_days=7)
         await ctx.send(f"{member.mention} was banned for `{reason}`")
         logchannel = self.bot.get_channel(848362560255950888)
         await logchannel.send(f"<:empty:848375084577325068> - **{member.mention}** was banned from **`{ctx.guild}`** for `{reason}`")
