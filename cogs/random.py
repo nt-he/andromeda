@@ -37,7 +37,15 @@ class Random(commands.Cog):
         await ctx.send(f'Posted your mii', delete_after=5)
         logchannel = self.bot.get_channel(848362560255950888)
         await logchannel.send(f"<:empty:848375084577325068> - A mii was added to the mii folder (`{imageName}`)")
+    @commands.command()
+    async def mii(self, ctx, user: discord.User):
+        """Get's a user's Mii."""
+        mii = discord.File(os.path.join("miis/", f"{ctx.author.id}.png"))
+        embed = discord.Embed(title="The Mii you Requested", colour=discord.Colour(0xba151b), description=f"Here is <@{user.id}>'s mii")
 
+        embed.set_image(file=mii)
+        await ctx.send(embed)
+        
 def setup(bot):
     bot.add_cog(Random(bot)) 
 
