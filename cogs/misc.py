@@ -157,7 +157,15 @@ class Misc(commands.Cog):
         pfp = self.bot.user.avatar_url
         embed = discord.Embed(color=discord.Color.random(), title="Credits", description="People who I've stolen code from, taken ideas from or have helped me in development.")
         embed.set_author(name="oscie bot 3", icon_url=pfp)
-        embed.add_field(name="People", value=f"<@667563245107937297> - Helped me with time formatting, stole a couple commands from them\n<@650819889434591241> - Assisted me alot with errors and when I couldn't figure out the most stupidest shit ever\n<@302271402277339146> - Took a couple ideas from them (sorry btw)\nhttps://discord.gg/dpy - People there helped me quite a bit\n<@729135459405529118> - My creator, who coded me\n<@264081339316305920> - Telling me how much Python sucks\n<@314142411247058946> - Helping me test some commands\n{ctx.author.mention} - You, for using me")
+        embed.add_field(name="People", value=f"""
+        <@667563245107937297> - Helped me with time formatting, stole a couple commands from them
+        <@650819889434591241> - Assisted me alot with errors and when I couldn't figure out the most stupidest shit ever and got buttons and other stuff working
+        <@302271402277339146> - [Took a couple ideas from them (sorry btw)](https://www.thediamondk.com/bot.html)
+        https://discord.gg/dpy - People there helped me quite a bit
+        <@729135459405529118> - My creator, who coded me
+        <@264081339316305920> - Telling me how much Python sucks
+        <@314142411247058946> - Helping me test some commands
+        {ctx.author.mention} - You, for using me""")
         await ctx.send(embed=embed)
     
 

@@ -47,7 +47,7 @@ class Music(commands.Cog):
             await ctx.send("Wait for music to end or `o.stop` lol")
             return
 
-        voiceChannel = discord.utils.get(ctx.guild.voice_channels, name="Voice")
+        voiceChannel = discord.utils.get(ctx.guild.voice_channels, name="radio")
         voice = discord.utils.get(self.bot.voice_clients, guild=ctx.guild)
         if voice == None:
             await voiceChannel.connect()
