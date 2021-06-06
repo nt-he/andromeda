@@ -21,20 +21,7 @@ class Random(commands.Cog):
     @commands.command()
     async def postsandwich(self, ctx, *, arg):
         """Posts a sandwich to the sandwich folder"""
-        imageName = os.path.join('sandwiches/', f"{arg}.png")
-        await ctx.message.delete()
-        message = await ctx.send(f'Are you sure?', components=[Button(label="No"), Button(label="Yes")])
-        try:
-            interaction = await self.bot.wait_for("button_click", timeout=5, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id)
-        except:
-            await ctx.send("You timed out and your sandwich was not posted.")
-        if interaction.component.label == "Yes":
-            await interaction.respond(content="Posted your sandwich")
-            await ctx.message.attachments[0].save(imageName)
-            await message.delete()
-        if interaction.component.label == "No":
-            await interaction.respond(content="Your sandwich was not posted.")
-            await message.delete()
+        await ctx.send("This command has (and original was from) Img.Bot\nhttps://discord.com/api/oauth2/authorize?client_id=848008372913176616&permissions=1024&scope=bot%20applications.commands")
 
 
     @commands.command()
