@@ -19,7 +19,10 @@ class Owner(commands.Cog):
         """Command which Loads a Module.
         Remember to use dot path. e.g: cogs.owner"""
         components = []
+        index = 0 # For pangination, which I will implement soon
         for extension in [f.replace('.py', '') for f in listdir('cogs') if isfile(join('cogs', f))]:
+            if len(components) == 4:
+                break
             components.append(Button(label=extension, style=3))
         message = await ctx.send(f'What extension do you want to load?', components=components)
         try:
