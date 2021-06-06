@@ -33,9 +33,9 @@ class Owner(commands.Cog):
         try:
             self.bot.load_extension("cogs." + interaction.component.label)
         except Exception as e:
-            await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}')
+            await interaction.respond(content=f'**`ERROR:`** {type(e).__name__} - {e}')
         else:
-            await ctx.send('**`SUCCESS`**')
+            await interaction.respond(content=f'**`SUCCESS`**')
 
     @commands.command(name='unload', hidden=True)
     @commands.is_owner()
