@@ -18,42 +18,29 @@ class Status(commands.Cog):
             Button(label="Online", id="online", style=3),
             Button(label="Invisible", id="offline", style=2)
         ]
-        message = await ctx.send("What would you like me to set my status to", components=components)
-        try:
-            interaction = await self.bot.wait_for("button_click", timeout=5, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id) 
-        except:
-            await ctx.send("You timed out and the status was not changed", delete_after=5)
-            await message.delete()
-        if interaction.component.id == "streaming":
-            logchannel = self.bot.get_channel(848362560255950888)
-            await self.bot.change_presence(activity=discord.Streaming(name="Doing bot things", url="https://www.youtube.com/watch?v=uVRHh8Jxtp0"), status=discord.Status.dnd)
-            await interaction.respond(content="<:status:848563270134792242> - Status changed!")
-            await logchannel.send("<:status:848563270134792242> - Status changed to **`Streaming`**")
-            await message.delete()
-        if interaction.component.id == "dnd":
-            logchannel = self.bot.get_channel(848362560255950888)
-            await self.bot.change_presence(activity=discord.Game(name="Doing bot things"), status=discord.Status.dnd)
-            await interaction.respond(content="<:status:848563270134792242> - Status changed!")
-            await logchannel.send("<:status:848563270134792242> - Status changed to **`Do not Disturb`**")
-            await message.delete()
-        if interaction.component.id == "idle":
-            logchannel = self.bot.get_channel(848362560255950888)
-            await self.bot.change_presence(activity=discord.Game(name="Doing bot things"), status=discord.Status.idle)
-            await interaction.respond(content="<:status:848563270134792242> - Status changed!")
-            await logchannel.send("<:status:848563270134792242> - Status changed to **`Idle`**")
-            await message.delete()
-        if interaction.component.id == "online":
-            logchannel = self.bot.get_channel(848362560255950888)
-            await self.bot.change_presence(activity=discord.Game(name="Doing bot things"), status=discord.Status.online)
-            await interaction.respond(content="<:status:848563270134792242> - Status changed!")
-            await logchannel.send("<:status:848563270134792242> - Status changed to **`Online`**")
-            await message.delete()
-        if interaction.component.id == "offline":
-            logchannel = self.bot.get_channel(848362560255950888)
-            await self.bot.change_presence(activity=discord.Game(name="Doing bot things"), status=discord.Status.offline)
-            await interaction.respond(content="<:status:848563270134792242> - Status changed!")
-            await logchannel.send("<:status:848563270134792242> - Status changed to **`Offline`**")
-            await message.delete()
+        message = await ctx.send("What would you like me to set my status to?", components=components)
+        while True:
+            try:
+                interaction = await self.bot.wait_for("button_click", timeout=60, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id) 
+            except:
+                await message.delete()
+                await ctx.send("You timed out and the status was not changed", delete_after=5)
+
+            if interaction.component.id == "streaming":
+                await self.bot.change_presence(activity=discord.Streaming(name="Doing bot things", url="https://www.youtube.com/watch?v=uVRHh8Jxtp0"), status=discord.Status.dnd)
+                await interaction.respond(content="<:status:848563270134792242> - Status changed!")
+            if interaction.component.id == "dnd":
+                await self.bot.change_presence(activity=discord.Game(name="Doing bot things"), status=discord.Status.dnd)
+                await interaction.respond(content="<:status:848563270134792242> - Status changed!")
+            if interaction.component.id == "idle":
+                await self.bot.change_presence(activity=discord.Game(name="Doing bot things"), status=discord.Status.idle)
+                await interaction.respond(content="<:status:848563270134792242> - Status changed!")
+            if interaction.component.id == "online":
+                await self.bot.change_presence(activity=discord.Game(name="Doing bot things"), status=discord.Status.online)
+                await interaction.respond(content="<:status:848563270134792242> - Status changed!")
+            if interaction.component.id == "offline":
+                await self.bot.change_presence(activity=discord.Game(name="Doing bot things"), status=discord.Status.offline)
+                await interaction.respond(content="<:status:848563270134792242> - Status changed!")
 
 def setup(bot):
     bot.add_cog(Status(bot))
