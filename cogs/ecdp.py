@@ -11,6 +11,7 @@ class eCDP(commands.Cog):
     @commands.command()
     async def sochashbrowns(self, ctx):
         """Hash Browns SELFCHECK"""
+        # TODO: Put the actual Japanese in here
         embed = discord.Embed(color=0x7289DA)
         embed.set_author(name="made by oscie - ecdp guides", icon_url="https://oscie.tk/assets/logo.png")
         embed.add_field(name="Important!", value="All of these answers are meant to be used with a phone with the camera on Google Translate, as these were taken directly from it. They are not accurate AT ALL but they work flawlessly with a phone like how it was made.\n\n", inline=False)

@@ -12,7 +12,8 @@ import io
 import contextlib
 import textwrap
 from traceback import format_exception 
-
+# The current edit is a scratch edit
+# If you found this, then revert the change that added this commit.
 class Misc(commands.Cog):
     """Commands that don't really have a category that fits them."""
 
@@ -197,6 +198,5 @@ class Misc(commands.Cog):
             else:
                 memberstr = "members"
             await ctx.send(f"ID: {guild.id} - {guild.name} | {guild.member_count} {memberstr}")
-
 def setup(bot):
     bot.add_cog(Misc(bot))
