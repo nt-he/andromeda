@@ -29,9 +29,9 @@ class Random(commands.Cog):
         await logchannel.send(f"<:empty:848375084577325068> - A sandwich was added to the sandwich folder (`{imageName}`)")
 
     @commands.command()
-    async def postmii(self, ctx, *, arg):
+    async def postmii(self, ctx):
         """Posts a mii to the mii folder"""
-        imageName = 'miis/' + arg + '.png'
+        imageName = os.path.join("miis/", f"{ctx.author.id}.png")
         await ctx.message.attachments[0].save(imageName)
         await ctx.message.delete()
         await ctx.send(f'Posted your mii', delete_after=5)
