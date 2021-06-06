@@ -95,6 +95,16 @@ class Listeners(commands.Cog):
         if message.content != "e":
             await message.delete()
 
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        """For LNH - Returns 'sans pee pee' when it is said"""
+        lnhsanschan = 704391659093360762
+        if message.channel.id != lnhsanschan:
+            return
+        else:
+            if message.content == "sans pee pee":
+                await message.send("sans pee pee")
+
         
 
 
