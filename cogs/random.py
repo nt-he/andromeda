@@ -21,7 +21,7 @@ class Random(commands.Cog):
     @commands.command()
     async def postsandwich(self, ctx, *, arg):
         """Posts a sandwich to the sandwich folder"""
-        await ctx.send("This command has (and original was from) Img.Bot\nhttps://discord.com/api/oauth2/authorize?client_id=848008372913176616&permissions=1024&scope=bot%20applications.commands")
+        await ctx.send("This command has (and original was from) Img.Bot\nhttps://www.thediamondk.com/bot.html")
 
 
     @commands.command()
