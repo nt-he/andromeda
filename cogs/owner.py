@@ -87,35 +87,133 @@ class Owner(commands.Cog):
     @commands.command(name='unload', hidden=True)
     @commands.is_owner()
     async def cogunload(self, ctx, *, cog: str):
-        logchannel = self.bot.get_channel(848362560255950888)
-        """Command which Unloads a Module.
-        Remember to use dot path. e.g: cogs.owner"""
-
+        components = []
+        disabled_components = []
+        index = 0 # For pangination, which I will implement soon
+        for extension in self.bot.extensions:
+            if len(components) >= 4:
+                index += 4
+                break
+            components.append(Button(label=extension[5:], style=3))
+            disabled_components.append(Button(label=extension[5:], style=3, disabled=True))
+        if index == 4:
+            components.append(Button(label='Next Page', style=1))
+            disabled_components.append(Button(label='Next Page', style=1, disabled=True))
+        message = await ctx.send(f'What extension do you want to unload?', components=components)
         try:
-            self.bot.unload_extension(cog)
-        except Exception as e:
-            await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}')
-            await logchannel.send(f'<:cross:848374065550458920> - {type(e).__name__} - {e}')
+            interaction = await self.bot.wait_for("button_click", timeout=10, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id) 
+        except asyncio.TimeoutError:
+            await message.delete()
+            await ctx.send("You timed out and no cogs were unloaded.", delete_after=5)
+        if interaction.component.label != 'Next Page':
+            try:
+                self.bot.unload_extension("cogs." + interaction.component.label)
+            except Exception as e:
+                await interaction.respond(content=f'**`ERROR:`** {type(e).__name__} - {e}')
+                await message.edit(components=disabled_components)
+            else:
+                await interaction.respond(content=f'**`SUCCESS`**')
+                await message.edit(components=disabled_components)
         else:
-            await ctx.send('**`SUCCESS`**')
-            await logchannel.send('<:check:848374065366433852> - Unloading cog success')
+            # Pagination
+            await interaction.respond(type=6)
+            while True:
+                components = []
+                for extension in list(self.bot.extensions.keys())[index:]:
+                    if len(components) == 4: break
+                    print(extension)
+                    components.append(Button(label=extension[5:], style=3))
+                    disabled_components.append(Button(label=extension[5:], style=3, disabled=True))
+                    index += 1
+                if len(components) == 4:
+                    components.append(Button(label='Next Page', style=1))
+                    disabled_components.append(Button(label='Next Page', style=1, disabled=True))
+                print("edit message")
+                await message.edit(components=components)
+
+                try:
+                    interaction = await self.bot.wait_for("button_click", timeout=10, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id) 
+                except asyncio.TimeoutError:
+                    await message.delete()
+                    await ctx.send("You timed out and no cogs were loaded.", delete_after=5)
+                if interaction.component.label != 'Next Page':
+                    try:
+                        self.bot.load_extension("cogs." + interaction.component.label)
+                    except Exception as e:
+                        await interaction.respond(content=f'**`ERROR:`** {type(e).__name__} - {e}')
+                        await message.edit(components=disabled_components)
+                        break
+                    else:
+                        await interaction.respond(content=f'**`SUCCESS`**')
+                        await message.edit(components=disabled_components)
+                        break
+                await interaction.respond(type=6)
 
     @commands.command(name='reload', hidden=True)
     @commands.is_owner()
-    async def cogreload(self, ctx, *, cog: str):
-        logchannel = self.bot.get_channel(848362560255950888)
-        """Command which Reloads a Module.
-        Remember to use dot path. e.g: cogs.owner"""
-
+    async def cogreload(self, ctx, cog):
+        components = []
+        disabled_components = []
+        index = 0 # For pangination, which I will implement soon
+        for extension in self.bot.extensions:
+            if len(components) >= 4:
+                index += 4
+                break
+            components.append(Button(label=extension[5:], style=3))
+            disabled_components.append(Button(label=extension[5:], style=3, disabled=True))
+        if index == 4:
+            components.append(Button(label='Next Page', style=1))
+            disabled_components.append(Button(label='Next Page', style=1, disabled=True))
+        message = await ctx.send(f'What extension do you want to unload?', components=components)
         try:
-            self.bot.unload_extension(cog)
-            self.bot.load_extension(cog)
-        except Exception as e:
-            await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}')
-            await logchannel.send(f'<:cross:848374065550458920> - {type(e).__name__} - {e}')
+            interaction = await self.bot.wait_for("button_click", timeout=10, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id) 
+        except asyncio.TimeoutError:
+            await message.delete()
+            await ctx.send("You timed out and no cogs were reloaded.", delete_after=5)
+        if interaction.component.label != 'Next Page':
+            try:
+                self.bot.unload_extension("cogs." + interaction.component.label)
+                self.bot.reload_extension("cogs." + interaction.component.label)
+            except Exception as e:
+                await interaction.respond(content=f'**`ERROR:`** {type(e).__name__} - {e}')
+                await message.edit(components=disabled_components)
+            else:
+                await interaction.respond(content=f'**`SUCCESS`**')
+                await message.edit(components=disabled_components)
         else:
-            await ctx.send('**`SUCCESS`**')
-            await logchannel.send('<:check:848374065366433852> - Reloading cog success')
+            # Pagination
+            await interaction.respond(type=6)
+            while True:
+                components = []
+                for extension in list(self.bot.extensions.keys())[index:]:
+                    if len(components) == 4: break
+                    print(extension)
+                    components.append(Button(label=extension[5:], style=3))
+                    disabled_components.append(Button(label=extension[5:], style=3, disabled=True))
+                    index += 1
+                if len(components) == 4:
+                    components.append(Button(label='Next Page', style=1))
+                    disabled_components.append(Button(label='Next Page', style=1, disabled=True))
+                print("edit message")
+                await message.edit(components=components)
+
+                try:
+                    interaction = await self.bot.wait_for("button_click", timeout=10, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id) 
+                except asyncio.TimeoutError:
+                    await message.delete()
+                    await ctx.send("You timed out and no cogs were loaded.", delete_after=5)
+                if interaction.component.label != 'Next Page':
+                    try:
+                        self.bot.load_extension("cogs." + interaction.component.label)
+                    except Exception as e:
+                        await interaction.respond(content=f'**`ERROR:`** {type(e).__name__} - {e}')
+                        await message.edit(components=disabled_components)
+                        break
+                    else:
+                        await interaction.respond(content=f'**`SUCCESS`**')
+                        await message.edit(components=disabled_components)
+                        break
+                await interaction.respond(type=6)
 
     @commands.command(hidden=True)
     @commands.is_owner()
