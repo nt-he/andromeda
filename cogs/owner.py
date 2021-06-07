@@ -30,6 +30,9 @@ class Owner(commands.Cog):
                     break
                 components.append(Button(label=extension, style=3))
                 disabled_components.append(Button(label=extension, style=3, disabled=True))
+        if len(components) == 0: 
+            await ctx.send("There are no plugins to load")
+            return
         if index == 4:
             components.append(Button(label='Next Page', style=1))
             disabled_components.append(Button(label='Next Page', style=1, disabled=True))
@@ -53,6 +56,7 @@ class Owner(commands.Cog):
             await interaction.respond(type=6)
             while True:
                 components = []
+                disabled_components = []
                 for extension in [f.replace('.py', '') for f in listdir('cogs')[index:] if isfile(join('cogs', f))]:
                     if 'cogs.' + extension not in self.bot.extensions:
                         if len(components) == 4: break
@@ -119,6 +123,7 @@ class Owner(commands.Cog):
             await interaction.respond(type=6)
             while True:
                 components = []
+                disabled_components = []
                 for extension in list(self.bot.extensions.keys())[index:]:
                     if len(components) == 4: break
                     print(extension)
@@ -185,6 +190,7 @@ class Owner(commands.Cog):
             await interaction.respond(type=6)
             while True:
                 components = []
+                disabled_components = []
                 for extension in list(self.bot.extensions.keys())[index:]:
                     if len(components) == 4: break
                     print(extension)
