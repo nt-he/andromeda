@@ -11,7 +11,7 @@ class Owner(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.tasks = ""
-    
+    global interaction
     # Hidden means it won't show up on the default help.
     @commands.command(name='load', hidden=True)
     @commands.is_owner()
@@ -49,6 +49,7 @@ class Owner(commands.Cog):
         else:
             # Pagination
             while True:
+                await interaction.respond(type=6)
                 components = []
                 for extension in [f.replace('.py', '') for f in listdir('cogs')[index:] if isfile(join('cogs', f))]:
                     if len(components) == 4: break
@@ -56,7 +57,6 @@ class Owner(commands.Cog):
                     components.append(Button(label=extension, style=3))
                     disabled_components.append(Button(label=extension, style=3, disabled=True))
                     index += 1
-                    await interaction.respond(type=6)
                 if len(components) == 4:
                     components.append(Button(label='Next Page', style=1))
                     disabled_components.append(Button(label='Next Page', style=1, disabled=True))
