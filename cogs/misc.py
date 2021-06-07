@@ -12,8 +12,7 @@ import io
 import contextlib
 import textwrap
 from traceback import format_exception 
-# The current edit is a scratch edit
-# If you found this, then revert the change that added this commit.
+
 class Misc(commands.Cog):
     """Commands that don't really have a category that fits them."""
 
@@ -138,7 +137,6 @@ class Misc(commands.Cog):
 
         embed1.add_field(name="Owner", value=owner, inline=True)
         embed1.add_field(name="Server ID", value=id, inline=True)
-        embed1.add_field(name="Server Region", value=region, inline=True)
         embed1.add_field(name="Member Count", value=memberCount, inline=True)
         embed1.add_field(name="Created at:", value=createdtime)
         embed1.add_field(name="Boost Level", value=boostlevelstr)
