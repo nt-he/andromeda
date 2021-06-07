@@ -56,16 +56,16 @@ class Owner(commands.Cog):
                     components.append(Button(label=extension, style=3))
                     disabled_components.append(Button(label=extension, style=3, disabled=True))
                     index += 1
-                    await interaction.respond(6)
+                    await interaction.respond(type=6)
+                if len(components) == 4:
+                    components.append(Button(label='Next Page', style=1))
+                    disabled_components.append(Button(label='Next Page', style=1, disabled=True))
+                await message.edit(components=components)
                 try:
                     interaction = await self.bot.wait_for("button_click", timeout=10, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id) 
                 except asyncio.TimeoutError:
                     await message.delete()
                     await ctx.send("You timed out and no cogs were loaded.", delete_after=5)
-                if len(components) == 4:
-                    components.append(Button(label='Next Page', style=1))
-                    disabled_components.append(Button(label='Next Page', style=1, disabled=True))
-                await message.edit(components=components)
                 if interaction.component.label != 'Next Page':
                     try:
                         self.bot.load_extension("cogs." + interaction.component.label)
