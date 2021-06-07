@@ -49,13 +49,34 @@ class Owner(commands.Cog):
         else:
             # Pagination
             while True:
+                components = []
                 for extension in [f.replace('.py', '') for f in listdir('cogs')[index:] if isfile(join('cogs', f))]:
-
+                    if len(components) == 4: break
+                    print(extension)
                     components.append(Button(label=extension, style=3))
                     disabled_components.append(Button(label=extension, style=3, disabled=True))
-                if index == 4:
+                    index += 1
+                    await interaction.respond(6)
+                try:
+                    interaction = await self.bot.wait_for("button_click", timeout=10, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id) 
+                except asyncio.TimeoutError:
+                    await message.delete()
+                    await ctx.send("You timed out and no cogs were loaded.", delete_after=5)
+                if len(components) == 4:
                     components.append(Button(label='Next Page', style=1))
                     disabled_components.append(Button(label='Next Page', style=1, disabled=True))
+                await message.edit(components=components)
+                if interaction.component.label != 'Next Page':
+                    try:
+                        self.bot.load_extension("cogs." + interaction.component.label)
+                    except Exception as e:
+                        await interaction.respond(content=f'**`ERROR:`** {type(e).__name__} - {e}')
+                        await message.edit(components=disabled_components)
+                        break
+                    else:
+                        await interaction.respond(content=f'**`SUCCESS`**')
+                        await message.edit(components=disabled_components)
+                        break
 
 
     @commands.command(name='unload', hidden=True)
