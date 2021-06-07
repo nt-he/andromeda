@@ -48,8 +48,8 @@ class Owner(commands.Cog):
                 await message.edit(components=disabled_components)
         else:
             # Pagination
+            await interaction.respond(type=6)
             while True:
-                await interaction.respond(type=6)
                 components = []
                 for extension in [f.replace('.py', '') for f in listdir('cogs')[index:] if isfile(join('cogs', f))]:
                     if len(components) == 4: break
@@ -60,7 +60,9 @@ class Owner(commands.Cog):
                 if len(components) == 4:
                     components.append(Button(label='Next Page', style=1))
                     disabled_components.append(Button(label='Next Page', style=1, disabled=True))
+                print("edit message")
                 await message.edit(components=components)
+
                 try:
                     interaction = await self.bot.wait_for("button_click", timeout=10, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id) 
                 except asyncio.TimeoutError:
@@ -77,7 +79,7 @@ class Owner(commands.Cog):
                         await interaction.respond(content=f'**`SUCCESS`**')
                         await message.edit(components=disabled_components)
                         break
-
+                await interaction.respond(type=6)
 
     @commands.command(name='unload', hidden=True)
     @commands.is_owner()
