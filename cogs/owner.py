@@ -29,7 +29,7 @@ class Owner(commands.Cog):
             disabled_components.append(Button(label=extension, style=3, disabled=True))
         if index == 4:
             components.append(Button(label='Next Page', style=1))
-            disabled_components.append(Button(label='Next Page', style=3, disabled=True))
+            disabled_components.append(Button(label='Next Page', style=1, disabled=True))
         message = await ctx.send(f'What extension do you want to load?', components=components)
         try:
             interaction = await self.bot.wait_for("button_click", timeout=10, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id) 
