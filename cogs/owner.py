@@ -138,7 +138,7 @@ class Owner(commands.Cog):
                     await ctx.send("You timed out and no cogs were loaded.", delete_after=5)
                 if interaction.component.label != 'Next Page':
                     try:
-                        self.bot.load_extension("cogs." + interaction.component.label)
+                        self.bot.unload_extension("cogs." + interaction.component.label)
                     except Exception as e:
                         await interaction.respond(content=f'**`ERROR:`** {type(e).__name__} - {e}')
                         await message.edit(components=disabled_components)
@@ -204,7 +204,8 @@ class Owner(commands.Cog):
                     await ctx.send("You timed out and no cogs were loaded.", delete_after=5)
                 if interaction.component.label != 'Next Page':
                     try:
-                        self.bot.load_extension("cogs." + interaction.component.label)
+                        self.bot.unload_extension("cogs." + interaction.component.label)
+                        self.bot.reload_extension("cogs." + interaction.component.label)
                     except Exception as e:
                         await interaction.respond(content=f'**`ERROR:`** {type(e).__name__} - {e}')
                         await message.edit(components=disabled_components)
