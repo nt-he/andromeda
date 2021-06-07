@@ -23,25 +23,33 @@ class Owner(commands.Cog):
         components = []
         disabled_components = []
         index = 0 # For pangination, which I will implement soon
-        for extension in [f.replace('.py', '') for f in listdir('cogs') if isfile(join('cogs', f))]:
+        extensions = [f.replace('.py', '') for f in listdir('cogs') if isfile(join('cogs', f))]
+        for extf in [f for f in listdir("cogs/community") if not isfile('cogs/community/' + f)]:
+            for extension in [f.replace('.py', '').replace('/', '.') for f in listdir('cogs/community/' + extf) if isfile(join('cogs/community/' + extf, f))]:
+                print(('community/' + extf + '/' + extension).replace('/','.'))
+                extensions.append(('community/' + extf + '/' + extension).replace('/','.'))
+        for extension in extensions[index:]:
             if 'cogs.' + extension not in self.bot.extensions:
-                if len(components) >= 4:
-                    index += 4
+                if len(components) < 4:
+                    components.append(Button(label=extension, style=3))
+                    disabled_components.append(Button(label=extension, style=3, disabled=True))
+                    index += 1
+                else:
                     break
-                components.append(Button(label=extension, style=3))
-                disabled_components.append(Button(label=extension, style=3, disabled=True))
-        if len(components) == 0: 
-            await ctx.send("There are no plugins to load")
-            return
         if index == 4:
             components.append(Button(label='Next Page', style=1))
             disabled_components.append(Button(label='Next Page', style=1, disabled=True))
+        if len(components) == 0: 
+            await ctx.send("There are no plugins to load")
+            return
+
         message = await ctx.send(f'What extension do you want to load?', components=components)
         try:
             interaction = await self.bot.wait_for("button_click", timeout=10, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id) 
         except asyncio.TimeoutError:
             await message.delete()
             await ctx.send("You timed out and no cogs were loaded.", delete_after=5)
+            return
         if interaction.component.label != 'Next Page':
             try:
                 self.bot.load_extension("cogs." + interaction.component.label)
@@ -55,15 +63,21 @@ class Owner(commands.Cog):
             # Pagination
             await interaction.respond(type=6)
             while True:
+                index = 0
                 components = []
                 disabled_components = []
-                for extension in [f.replace('.py', '') for f in listdir('cogs')[index:] if isfile(join('cogs', f))]:
-                    if 'cogs.' + extension not in self.bot.extensions:
-                        if len(components) == 4: break
-                        print(extension)
-                        components.append(Button(label=extension, style=3))
-                        disabled_components.append(Button(label=extension, style=3, disabled=True))
-                        index += 1
+                for extension in extensions:
+                    if extension.startswith('cogs.community'): print(extension)
+                    else: break
+                while len(components) >= 4:
+                    try:
+                        if 'cogs.' + extensions[index] not in self.bot.extensions or ('cogs.' + extension).startswith('cogs.community'):
+                            components.append(Button(label=extension, style=3))
+                            disabled_components.append(Button(label=extension, style=3, disabled=True))
+                    except:
+                        break
+                    index += 1
+                print(extensions[index:index + 4])
                 if len(components) == 4:
                     components.append(Button(label='Next Page', style=1))
                     disabled_components.append(Button(label='Next Page', style=1, disabled=True))
