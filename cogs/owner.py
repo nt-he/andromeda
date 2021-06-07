@@ -3,6 +3,7 @@ from discord.ext import commands
 from os import listdir
 from os.path import join, isfile
 from discord_components import Button
+import asyncio
 class Owner(commands.Cog):
     """Commands that only the owner of the bot can see.
     Mainly just cog maintenence stuff."""
@@ -33,7 +34,7 @@ class Owner(commands.Cog):
         message = await ctx.send(f'What extension do you want to load?', components=components)
         try:
             interaction = await self.bot.wait_for("button_click", timeout=10, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id) 
-        except:
+        except asyncio.TimeoutError:
             await message.delete()
             await ctx.send("You timed out and no cogs were loaded.", delete_after=5)
         if interaction.component.label != 'Next Page':
@@ -47,7 +48,15 @@ class Owner(commands.Cog):
                 await message.edit(components=disabled_components)
         else:
             # Pagination
-            pass
+            while True:
+                for extension in [f.replace('.py', '') for f in listdir('cogs')[index:] if isfile(join('cogs', f))]:
+
+                    components.append(Button(label=extension, style=3))
+                    disabled_components.append(Button(label=extension, style=3, disabled=True))
+                if index == 4:
+                    components.append(Button(label='Next Page', style=1))
+                    disabled_components.append(Button(label='Next Page', style=1, disabled=True))
+
 
     @commands.command(name='unload', hidden=True)
     @commands.is_owner()
