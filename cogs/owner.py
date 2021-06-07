@@ -86,7 +86,7 @@ class Owner(commands.Cog):
 
     @commands.command(name='unload', hidden=True)
     @commands.is_owner()
-    async def cogunload(self, ctx, *, cog: str):
+    async def cogunload(self, ctx):
         components = []
         disabled_components = []
         index = 0 # For pangination, which I will implement soon
@@ -151,7 +151,7 @@ class Owner(commands.Cog):
 
     @commands.command(name='reload', hidden=True)
     @commands.is_owner()
-    async def cogreload(self, ctx, cog):
+    async def cogreload(self, ctx):
         components = []
         disabled_components = []
         index = 0 # For pangination, which I will implement soon
@@ -164,7 +164,7 @@ class Owner(commands.Cog):
         if index == 4:
             components.append(Button(label='Next Page', style=1))
             disabled_components.append(Button(label='Next Page', style=1, disabled=True))
-        message = await ctx.send(f'What extension do you want to unload?', components=components)
+        message = await ctx.send(f'What extension do you want to reload?', components=components)
         try:
             interaction = await self.bot.wait_for("button_click", timeout=10, check=lambda res: res.user.id == ctx.author.id and res.channel.id == ctx.channel.id) 
         except asyncio.TimeoutError:
