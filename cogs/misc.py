@@ -167,7 +167,6 @@ class Misc(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
-    @commands.is_owner()
     async def remind(self, ctx, *, content):
         """Sends a message in my server to remind me"""
         await ctx.message.delete()
