@@ -167,13 +167,22 @@ class Misc(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command()
-    async def userremind(self, ctx, *, content):
+    @commands.is_owner()
+    async def remind(self, ctx, *, content):
+        """Sends a message in my server to remind me"""
         await ctx.message.delete()
-        await ctx.send("Sent suggestion to <#821432334317912125>", delete_after=5)
-        chatchann = self.bot.get_channel(821432334317912125)
-        embed = discord.Embed(color=discord.Color.blurple(), description=content, timestamp=datetime.datetime.today())
-        embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
-        await chatchann.send(ctx.author.mention, embed=embed)
+        if ctx.author.id == 729135459405529118:
+            await ctx.send("Sent suggestion to <#845361102530281532>", delete_after=5)
+            remindchann = self.bot.get_channel(845361102530281532)
+            embed = discord.Embed(color=discord.Color.blurple(), description=content, timestamp=datetime.datetime.today())
+            embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
+            await remindchann.send("<@729135459405529118>", embed=embed)
+        else:
+            await ctx.send("Sent suggestion to <#821432334317912125>", delete_after=5)
+            chatchann = self.bot.get_channel(821432334317912125)
+            embed = discord.Embed(color=discord.Color.blurple(), description=content, timestamp=datetime.datetime.today())
+            embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
+            await chatchann.send(ctx.author.mention, embed=embed)
     
 
 def setup(bot):

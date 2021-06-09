@@ -241,20 +241,9 @@ class Owner(commands.Cog):
 
     @commands.command()
     @commands.is_owner()
-    async def remind(self, ctx, *, content):
-        """Sends a message in my server to remind me"""
-        await ctx.message.delete()
-        await ctx.send("Sent suggestion to <#845361102530281532>", delete_after=5)
-        remindchann = self.bot.get_channel(845361102530281532)
-        embed = discord.Embed(color=discord.Color.blurple(), description=content, timestamp=datetime.datetime.today())
-        embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
-        await remindchann.send("<@729135459405529118>", embed=embed)
-
-    @commands.command()
-    @commands.is_owner()
     async def ownerhelp(self, ctx):
         """Sends all the owner commands"""
-        await ctx.send("```Oscie Bot 3 is a multi-use bot, that has many uses. It uses discord.ext and a cog system. Thank you for using me :D\n\nThese are commands that only the owner of the bot can see.\nMainly just cog maintenence stuff.\n\n  load          Loads the specified cog\n  unload        Unloads the specified cog\n  reload        Reloads the specified cog\n  shutdown      Shuts down the bot in a bad way\n  print         Prints the content of the message to console\n  guildlist     Sends all the guilds the bot is in\n  remind        Sends a message in my server to remind me\n\nType o.help for a list of public commands.\nYou can also type o.help command for more info on an owner command.```", delete_after=20)
+        await ctx.send("```Oscie Bot 3 is a multi-use bot, that has many uses. It uses discord.ext and a cog system. Thank you for using me :D\n\nThese are commands that only the owner of the bot can see.\nMainly just cog maintenence stuff.\n\n  load          Loads the specified cog\n  unload        Unloads the specified cog\n  reload        Reloads the specified cog\n  shutdown      Shuts down the bot in a bad way\n  print         Prints the content of the message to console\n  guildlist     Sends all the guilds the bot is in\n\nType o.help for a list of public commands.\nYou can also type o.help command for more info on an owner command.```", delete_after=20)
 
 def setup(bot):
     bot.add_cog(Owner(bot))
