@@ -8,3 +8,4 @@ botdev.code-workspace
 sandwiches/
 miis/
 cogs/community
+/venv/
