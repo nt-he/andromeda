@@ -68,7 +68,7 @@ class Owner(commands.Cog):
         print("".join(args))
 
     @commands.command()
-    #@commands.is_owner()
+    @commands.is_owner()
     async def privatemsg(self, ctx, *, content):
         """DMs the pinged member"""
         await ctx.message.delete()
@@ -76,7 +76,7 @@ class Owner(commands.Cog):
         await member.send(content)
     
     @commands.command()
-    #@commands.is_owner()
+    @commands.is_owner()
     async def multiplemsg(self, ctx, times: int, *, content):
         """Sends many messages in DMs"""
         member = ctx.message.mentions[0]
