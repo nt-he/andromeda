@@ -182,6 +182,24 @@ class Misc(commands.Cog):
             embed = discord.Embed(color=discord.Color.blurple(), description=content, timestamp=datetime.datetime.today())
             embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
             await chatchann.send(ctx.author.mention, embed=embed)
+
+    @commands.command()
+    async def repeat(self, ctx, times: int, *, content):
+        """"""
+        await ctx.message.delete()
+        count = 0
+        if times == 1:
+            r = "."
+        else:
+            r = "s."
+        #if times > 5 and discord.Permissions.manage_messages not in ctx.author:
+        #    await ctx.send(f"{ctx.author.mention} You do not have `MANAGE_MESSAGES` so you cannot send more than 5 messages at a time.")
+        #    return
+        while count < times:
+            count = count + 1
+            await ctx.send(content)
+        logchannel = self.bot.get_channel(848362560255950888)
+        await logchannel.send(f"<:invitesub:848556391337558017> {ctx.author} ran the `repeat` command and sent `{content}` `{times}` time{r}")
     
 
 def setup(bot):

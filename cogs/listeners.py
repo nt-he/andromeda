@@ -62,7 +62,15 @@ class Listeners(commands.Cog):
             if message.content == "sans pee pee":
                 await message.send("sans pee pee")
 
-        
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        if message.author == self.bot.user:
+            return
+        elif str(message.channel.type) == "private": 
+            channel = self.bot.get_channel(853400947714818088)
+            embed = discord.Embed(color=discord.Color.blurple(), description=message.content)
+            embed.set_author(name=f"'{message.author.display_name}#{message.author.discriminator}' says...", icon_url=message.author.avatar_url)
+            await channel.send(embed=embed)
 
 
 def setup(bot):
