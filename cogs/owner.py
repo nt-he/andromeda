@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 from os import listdir
 from os.path import join, isfile
-from discord_components import Button
 import asyncio
 import datetime
 class Owner(commands.Cog):
@@ -11,42 +10,56 @@ class Owner(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.tasks = ""
-    global interaction
-    # Hidden means it won't show up on the default help.
+
+
     @commands.command(name='load', hidden=True)
     @commands.is_owner()
-    async def cog_load(self, ctx, *, cog: str):
+    async def cogload(self, ctx, *, cog: str):
         """Command which Loads a Module."""
+        logchannel = self.bot.get_channel(848362560255950888)
         try:
             self.bot.load_extension(cog)
         except Exception as e:
             await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}')
+            embed = discord.Embed(color=0x7289DA, description="<:cross:848374065550458920> - Failed to load cog")
+            await logchannel.send(embed=embed)
         else:
             await ctx.send('**`SUCCESS`**')
+            embed = discord.Embed(color=0x7289DA, description="<:check:848374065366433852> - Loaded cog successfully")
+            await logchannel.send(embed=embed)
 
     @commands.command(name='unload', hidden=True)
     @commands.is_owner()
-    async def cog_unload(self, ctx, *, cog: str):
+    async def cogunload(self, ctx, *, cog: str):
         """Command which Unloads a Module."""
+        logchannel = self.bot.get_channel(848362560255950888)
         try:
             self.bot.unload_extension(cog)
         except Exception as e:
             await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}')
+            embed = discord.Embed(color=0x7289DA, description="<:cross:848374065550458920> - Failed to unload cog")
+            await logchannel.send(embed=embed)
         else:
             await ctx.send('**`SUCCESS`**')
+            embed = discord.Embed(color=0x7289DA, description="<:check:848374065366433852> - Unloaded cog successfully")
+            await logchannel.send(embed=embed)
 
     @commands.command(name='reload', hidden=True)
     @commands.is_owner()
-    async def cog_reload(self, ctx, *, cog: str):
+    async def cogreload(self, ctx, *, cog: str):
         """Command which Reloads a Module."""
+        logchannel = self.bot.get_channel(848362560255950888)
         try:
             self.bot.unload_extension(cog)
             self.bot.load_extension(cog)
         except Exception as e:
             await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}')
+            embed = discord.Embed(color=0x7289DA, description="<:cross:848374065550458920> - Failed to reload cog")
+            await logchannel.send(embed=embed)
         else:
             await ctx.send('**`SUCCESS`**')
+            embed = discord.Embed(color=0x7289DA, description="<:check:848374065366433852> - Reloaded cog successfully")
+            await logchannel.send(embed=embed)
 
 
     @commands.command(hidden=True)

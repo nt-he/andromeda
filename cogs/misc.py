@@ -112,6 +112,8 @@ class Misc(commands.Cog):
             region = ":flag_eu: Europe"
         elif region == "us-west":
             region = ":flag_us: US West"
+        elif region == "us-central":
+            region = ":flag_us: US Central"
 
         if boostlevel == "1":
             boostlevelstr = "Tier 1"
