@@ -10,4 +10,4 @@ miis/
 cogs/community
 /venv/
 nohup.out
-output.log
+output.logs

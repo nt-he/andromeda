@@ -432,7 +432,7 @@ Use this command with "o.roleme add" or "o.roleme remove"
         """Get a Website Index"""
         await ctx.send("remind me to do this")
 
-    commands.group(invoke_without_command=True)
+    @commands.group(invoke_without_command=True)
     async def stickers(self, ctx):
         """Shows Sticker store pages
         Usage: "o.store stickers [stickerpack]"""
