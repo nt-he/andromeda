@@ -1,8 +1,9 @@
-from discord.ext import commands
 import python_weather
 import asyncio
-from dotenv import load_dotenv
 import os
+
+from discord.ext import commands
+from dotenv import load_dotenv
 
 class Weather(commands.Cog):
     """Does weather stuff."""

@@ -1,9 +1,5 @@
 import discord
 from discord.ext import commands
-from os import listdir
-from os.path import join, isfile
-import asyncio
-import datetime
 
 from time import time
 import os

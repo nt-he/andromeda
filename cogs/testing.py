@@ -1,10 +1,4 @@
-import discord
-from discord.enums import NotificationLevel
 from discord.ext import commands
-import datetime
-import time
-import python_weather
-import asyncio
 
 class Testing(commands.Cog):
     """This cog listens for updates and then does stuff.

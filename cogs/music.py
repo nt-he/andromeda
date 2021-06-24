@@ -1,14 +1,9 @@
 import discord
-from discord.ext import commands
-import wavelink
 import os
-from dotenv import load_dotenv
-import datetime
-from discord.ext import commands
 import discord
-import sys
 import youtube_dl
-import ffmpeg
+
+from discord.ext import commands
 
 class Music(commands.Cog):
     """This cog will be for music commands in the future."""
