@@ -168,23 +168,13 @@ class Listeners(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if message.channel.id != 806378095334391879:
-            return
         if message.content != "e":
-            await message.delete()
+            if message.channel.id == 806378095334391879:
+                await message.delete()
 
-    @commands.Cog.listener()
-    async def on_message(self, message):
-        """For LNH - Returns 'sans pee pee' when it is said"""
-        lnhsanschan = 704391659093360762
-        if message.channel.id != lnhsanschan:
-            return
-        else:
-            if message.content == "sans pee pee":
-                await message.send("sans pee pee")
-
-    @commands.Cog.listener()
-    async def on_message(self, message):
+        if message.content == "sans pee pee":
+            await message.send("sans pee pee")
+        
         if message.author == self.bot.user:
             return
         elif str(message.channel.type) == "private": 
@@ -192,6 +182,12 @@ class Listeners(commands.Cog):
             embed = discord.Embed(color=discord.Color.blurple(), description=message.content)
             embed.set_author(name=f"'{message.author.display_name}#{message.author.discriminator}'' says...", icon_url=message.author.avatar_url)
             await channel.send(embed=embed)
+
+        if message.content.startswith("creeper"):
+            await message.send("aww man")
+        elif message.content.startswith("Creeper"):
+            await message.send("Aww Man")
+
 
     @commands.Cog.listener()
     async def on_message_delete(self, message):

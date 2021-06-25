@@ -1,8 +1,10 @@
 import python_weather
 import asyncio
 import os
+import discord
+import time
 
-from discord.ext import commands
+from discord.ext import tasks, commands
 from dotenv import load_dotenv
 
 class Weather(commands.Cog):
@@ -10,6 +12,39 @@ class Weather(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.hourlyforecast.start()
+        self.fivedayforecast.start()
+
+    @tasks.loop(seconds=3600)
+    async def hourlyforecast(self):
+        await self.bot.wait_until_ready()
+        load_dotenv()
+        channel = self.bot.get_channel(806042609704501268)
+
+        client = python_weather.Client(format=python_weather.METRIC)
+        weather = await client.find(os.getenv("HOME_TOWN"))
+        embed = discord.Embed(color=0x7289DA, title="Weather Update for `HOME_TOWN`", description=f"Last updated at: `{weather.current.date}`")
+        embed.add_field(name="Sky", value=f"`{weather.current.sky_text}`", inline=True)
+        embed.add_field(name="Temp", value=f"`{weather.current.temperature}°C`", inline=True)
+
+        await channel.send("<@729135459405529118>", embed=embed)
+        await client.close()
+
+    @tasks.loop(seconds=345600)
+    async def fivedayforecast(self):
+        await self.bot.wait_until_ready()
+        load_dotenv()
+        channel = self.bot.get_channel(806042609704501268)
+
+        client = python_weather.Client(format=python_weather.METRIC)
+        weather = await client.find(os.getenv("HOME_TOWN"))
+        embed = discord.Embed(color=0x7289DA, title="Forecast Update")
+
+        for forecast in weather.forecasts:
+            embed.add_field(name=str(forecast.date), value=f"{forecast.sky_text} | {forecast.temperature}°C", inline=False)
+
+        await channel.send("<@729135459405529118>", embed=embed)
+        await client.close()
 
     @commands.command()
     async def getweather(self, ctx):
@@ -60,6 +95,7 @@ class Weather(commands.Cog):
 
         await client.close()
 
+
     if __name__ == "__main__":
         loop = asyncio.get_event_loop()
         loop.run_until_complete(getweather())
@@ -69,3 +105,4 @@ class Weather(commands.Cog):
 
 def setup(bot):
     bot.add_cog(Weather(bot))
+    
