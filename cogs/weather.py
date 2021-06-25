@@ -41,7 +41,7 @@ class Weather(commands.Cog):
         embed = discord.Embed(color=0x7289DA, title="Forecast Update")
 
         for forecast in weather.forecasts:
-            embed.add_field(name=str(forecast.date), value=f"{forecast.sky_text} | {forecast.temperature}°C", inline=False)
+            embed.add_field(name=forecast.day, value=f"{forecast.sky_text} | {forecast.temperature}°C\n`Low: {forecast.low}` | `High: {forecast.high}`\n`Precipitation: {forecast.precip}`", inline=False)
 
         await channel.send("<@729135459405529118>", embed=embed)
         await client.close()
