@@ -95,6 +95,16 @@ class Weather(commands.Cog):
 
         await client.close()
 
+    @commands.command()
+    async def areaforecast(self, ctx, *, place:str):
+        """Gets Area Forecast - Won't be worked on"""
+        load_dotenv()
+        client = python_weather.Client(format=python_weather.METRIC)
+        weather = await client.find(str(place))
+
+        await ctx.send(f"The current temperature is `{weather.current.temperature}°C`.\nThe sky seems `{weather.current.sky_text}` right now.")
+
+        await client.close()
 
     if __name__ == "__main__":
         loop = asyncio.get_event_loop()
@@ -102,6 +112,9 @@ class Weather(commands.Cog):
         loop.run_until_complete(getskytext())
         loop.run_until_complete(gettemp())
         loop.run_until_complete(getforecast())
+        loop.run_until_complete(areaforecast())
+        loop.run_until_complete(hourlyforecast())
+        loop.run_until_complete(fivedayforecast())
 
 def setup(bot):
     bot.add_cog(Weather(bot))
