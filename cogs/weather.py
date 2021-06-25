@@ -38,7 +38,7 @@ class Weather(commands.Cog):
 
         client = python_weather.Client(format=python_weather.METRIC)
         weather = await client.find(os.getenv("HOME_TOWN"))
-        embed = discord.Embed(color=0x7289DA, title="Forecast Update")
+        embed = discord.Embed(color=0x7289DA, title="Forecast Update for `HOME_TOWN`")
 
         for forecast in weather.forecasts:
             embed.add_field(name=forecast.day, value=f"Sky: `{forecast.sky_text}` - Temp: `{forecast.temperature}°C`\nLow: `{forecast.low}°C` - High: `{forecast.high}°C`\nPrecipitation: `{forecast.precip}`", inline=True)
