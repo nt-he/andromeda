@@ -11,3 +11,4 @@ cogs/community
 /venv/
 nohup.out
 output.logs
+badwords
