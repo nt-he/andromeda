@@ -5,6 +5,13 @@ import os
 from os import listdir
 from os.path import isfile, join
 import traceback
+from types import DbSession
+from sqlalchemy import create_engine
+
+load_dotenv()
+
+db = DbSession(create_engine(getenv('SQLALCHEMY_URI')))
+
 def get_prefix(bot, message):
     prefixes = ['o.']
     if not message.guild:
@@ -81,7 +88,7 @@ async def say(ctx, *, args):
 @bot.event
 async def on_ready():
     print(f'\n\nLogged in as: {bot.user.name} - {bot.user.id}\nVersion: {discord.__version__}\n')
-load_dotenv()
+
 bot.run(os.getenv("DISCORD_TOKEN"), bot=True, reconnect=True)
 
 # Credit:
