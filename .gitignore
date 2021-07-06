@@ -12,3 +12,6 @@ cogs/community
 nohup.out
 output.logs
 badwords
+*.db
+alembic.ini
+__pycache__

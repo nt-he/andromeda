@@ -5,7 +5,6 @@ import os
 from os import listdir
 from os.path import isfile, join
 import traceback
-
 def get_prefix(bot, message):
     prefixes = ['o.']
     if not message.guild:
