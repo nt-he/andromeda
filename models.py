@@ -10,6 +10,6 @@ class User(Model):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
-    discord_id = Column(Integer, primary_key=True)
+    discord_id = Column(Integer, primary_key=True, nullable=False)
     strikes = Column(Integer, default=0)
     muted = Column(Boolean, default=False)
