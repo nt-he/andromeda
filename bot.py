@@ -88,8 +88,8 @@ async def say(ctx, *, args):
 @bot.event
 async def on_ready():
     print(f'\n\nLogged in as: {bot.user.name} - {bot.user.id}\nVersion: {discord.__version__}\n')
-
-bot.run(os.getenv("DISCORD_TOKEN"), bot=True, reconnect=True)
+if __name__ == '__main__':
+    bot.run(os.getenv("DISCORD_TOKEN"), bot=True, reconnect=True)
 
 # Credit:
 # .mii command | SketchMaster2001
