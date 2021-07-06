@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
-
+from models import User
+from bot import db
 class Moderation(commands.Cog):
     """Cog for moderation-ish commands such as banning or clearing"""
 
@@ -99,6 +100,19 @@ class Moderation(commands.Cog):
         else:
             await ctx.send(f"{member.mention} isn't muted.")
             return
+    @commands.command()
+    @commands.has_permissions(kick_members=True)
+    async def strike(self, ctx, member: discord.Member):
+        """Strikes a member"""
+        user_query = User.query.filter_by(discord_id=member.id, guild=ctx.guild.id)
+        if user_query != None:
+            user = user_query.first()
+            user.strikes += 1
+        else:
+            user = User(discord_id=member.id, guild=ctx.guild.id, strikes=1)
+        db.session.add(user)
+        db.session.commit()
 
+        
 def setup(bot):
     bot.add_cog(Moderation(bot))
