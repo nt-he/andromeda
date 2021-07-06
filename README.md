@@ -10,4 +10,4 @@ The `filter` cog is a filter designed to delete messages with bad words in them.
 Unless you have cloned `https://github.com/mogade/badwords`, the cog will be disabled.
 
 ## Configuring the database
-Copy alembic.example.ini to alembic.ini and edit it accordingly. Then run `alembic upgrade 59f58ec77d68`.
+Copy alembic.example.ini to alembic.ini and edit it accordingly. Then run `alembic upgrade 5f2e3bfa372c`.
