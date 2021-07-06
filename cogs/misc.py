@@ -4,6 +4,7 @@ import requests
 import urllib
 import binascii
 import datetime
+import wikipedia
 
 from bs4 import BeautifulSoup
 from discord.ext import commands
@@ -336,6 +337,16 @@ Use this command with "o.roleme add" or "o.roleme remove"
     async def website(self, ctx):
         """Get a Website Index"""
         await ctx.send("remind me to do this")
+
+    @commands.command()
+    async def wikipedia(self, ctx, *, query : str):
+        result = wikipedia.page(query)
+        await ctx.send(result.summary)
+
+    @commands.command()
+    async def google(self, ctx, *, query : str):
+        result = query.replace(" ", "+")
+        await ctx.send(f"https://lmgtfy.app/#gsc.tab=0&gsc.q={result}")
 
 
 def setup(bot):
