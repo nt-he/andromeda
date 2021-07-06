@@ -6,9 +6,11 @@ class Filter(commands.Cog):
         self.bot = bot
     
     @commands.Cog.listener()
-    def on_message():
+    async def on_message():
         badwords = [re.compile(regex) for regex in open("badwords/en.txt").readlines()]
         for badword in badwords:
             if badword.search(message.content):
                 await message.delete()
         await bot.process_commands(message)
+def setup(bot):
+    bot.add_cog(Filter(bot))
