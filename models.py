@@ -1,7 +1,8 @@
 from sqlalchemy import create_engine, Column, Integer, Boolean
 from sqlalchemy.orm import declarative_base
 from os import getenv
-
+from dotenv import load_dotenv
+load_dotenv()
 db = create_engine(getenv('SQLALCHEMY_URI'))
 Model = declarative_base()
 
