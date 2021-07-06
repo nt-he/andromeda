@@ -5,7 +5,8 @@ from os import getcwd
 sys.path.append(getcwd()) # ugh
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-from models import Model
+from bot import db
+Model = db.Model
 from alembic import context
 
 # this is the Alembic Config object, which provides
