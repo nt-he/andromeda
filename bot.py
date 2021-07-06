@@ -10,7 +10,7 @@ from sqlalchemy import create_engine
 
 load_dotenv()
 
-db = DbSession(create_engine(getenv('SQLALCHEMY_URI')))
+db = DbSession(create_engine(os.getenv('SQLALCHEMY_URI')))
 
 def get_prefix(bot, message):
     prefixes = ['o.']
