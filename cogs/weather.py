@@ -15,7 +15,7 @@ class Weather(commands.Cog):
         self.hourlyforecast.start()
         self.fivedayforecast.start()
 
-    @tasks.loop(seconds=3600)
+    @tasks.loop(seconds=1200)
     async def hourlyforecast(self):
         await self.bot.wait_until_ready()
         load_dotenv()
