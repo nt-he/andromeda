@@ -5,7 +5,8 @@ from time import time
 import os
 import sys
 from inspect import getsource
-
+from bot import db
+import models
 class Owner(commands.Cog):
     """Commands that only the owner of the bot can see.
     Mainly just cog maintenence stuff."""
@@ -227,6 +228,17 @@ Mainly just cog maintenence stuff.
 Type o.help for a list of public commands.
 You can also type o.help command for more info on an owner command.
 ```""", delete_after=20)
+    @commands.command()
+    @commands.is_owner()
+    async def cache(self, ctx, user: discord.User):
+        """Caches a user's info into a database."""
+        u = models.CachedUser.query(id=user.id) if models.CachedUser.query(id=user.id) else models.CachedUser(id=user.id)
+        u.name = user.name
+        u.discriminator = user.discriminator
+        db.session.add(u)
+        db.session.commit()
+        
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))
