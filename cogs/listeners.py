@@ -118,6 +118,10 @@ class Listeners(commands.Cog):
             region = ":flag_us: US West"
         elif region == "us-central":
             region = ":flag_us: US Central"
+        elif region == "us-east":
+            region = ":flag_us: US East"
+        elif region == "russia":
+            region = ":flag_ru: Russia"
 
         embed = discord.Embed(color=0x7289DA, description=f"I was just added to **`{guild}`**")
         embed.add_field(name="Name", value=name, inline=True)
