@@ -3,7 +3,7 @@ from discord.ext import commands
 import datetime
 import models
 from discord.ext.commands.core import bot_has_permissions
-
+from bot import db
 noteslegal = "¹X signifies version.\nAs of 06/2021, there are 3 versions (1, 2 and 3).\n\n²Date of last update\nThis message will only be updated for an important reason, and we can make changes to this without informing you."
 
 linkslegal = "[Discord Terms of Service](https://dis.gd/terms) ・ [Discord Community Guidelines](https://discord.com/guidelines) ・ [Discord API Legal](https://discord.com/developers/docs/legal) ・ [Discord API Policy](https://discord.com/developers/docs/policy) ・ [Discord Privacy Policy](https://discord.com/privacy)\n\n[Bot Page](https://oscie.net/bot) ・ [Bot Invite Page](https://bot.oscie.net) ・ [Oscie Website](https://oscie.net)"
