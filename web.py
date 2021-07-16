@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, jsonify, make_response
 import os.path, os
+
+from flask.helpers import send_from_directory
 app = Flask(__name__)
 
 class Mii:
@@ -24,7 +26,7 @@ def load_miis():
             if page == 0:
                 return {"miis": miis[0:10]}
             elif page == len(miis):
-                return make_response(jsonify({}), 999) # I decided to pick this code because I had no clue about anything in the HTTP spec that would make sense.
+                return make_response(jsonify({"miis": []})) # I decided to pick this code because I had no clue about anything in the HTTP spec that would make sense.
             else:
                 return {"miis": miis[page: page + 10]}
         else:
@@ -34,4 +36,7 @@ if __name__ == "__main__":
     # In production, these are served by a reverse proxy.
     app.static_folder = "static"
     app.static_url_path = "/static"
+    @app.route("/miis/<file>")
+    def miis(file):
+        return send_from_directory("miis", file)
     app.run(debug=True)
