@@ -237,6 +237,7 @@ You can also type o.help command for more info on an owner command.
         u.discriminator = user.discriminator
         db.session.add(u)
         db.session.commit()
+        await ctx.send("Cached user.")
         
 
 

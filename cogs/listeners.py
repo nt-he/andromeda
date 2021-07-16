@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import datetime
-
+import models
 from discord.ext.commands.core import bot_has_permissions
 
 noteslegal = "¹X signifies version.\nAs of 06/2021, there are 3 versions (1, 2 and 3).\n\n²Date of last update\nThis message will only be updated for an important reason, and we can make changes to this without informing you."
@@ -176,7 +176,12 @@ class Listeners(commands.Cog):
             return
         if message.author.bot:
             return
-
+        user = message.author
+        u = models.CachedUser.query(id=user.id) if models.CachedUser.query(id=user.id) else models.CachedUser(id=user.id)
+        u.name = user.name
+        u.discriminator = user.discriminator
+        db.session.add(u)
+        db.session.commit()
         if message.content != "e":
             if message.channel.id == 806378095334391879:
                 await message.delete()
