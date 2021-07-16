@@ -232,7 +232,7 @@ You can also type o.help command for more info on an owner command.
     @commands.is_owner()
     async def cache(self, ctx, user: discord.User):
         """Caches a user's info into a database."""
-        u = models.CachedUser.query(id=user.id) if models.CachedUser.query(id=user.id) else models.CachedUser(id=user.id)
+        u = db.session.query(models.CachedUser).get(id=user.id) if db.session.query(models.CachedUser).get(id=user.id) else models.CachedUser(id=user.id)
         u.name = user.name
         u.discriminator = user.discriminator
         db.session.add(u)
