@@ -30,3 +30,8 @@ def load_miis():
         else:
             return make_response({}, 400)
         
+if __name__ == "__main__":
+    # In production, these are served by a reverse proxy.
+    app.static_folder = "static"
+    app.static_url_path = "/static"
+    app.run(debug=True)
