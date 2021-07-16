@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, make_response
 import os.path, os
-
+import models
+from bot import db
 from flask.helpers import send_from_directory
 app = Flask(__name__)
 
@@ -20,7 +21,7 @@ def home():
     return render_template("home.html.jinja2")
 @app.route("/load")
 def load_miis():
-        miis = [f for f in os.listdir("miis") if os.path.isfile(os.path.join("miis", f))]
+        miis = [{"loc": f, "username": models.CachedUser.get(f.split(".")[0]).username + "#" + models.CachedUser.get(f.split(".")[0]).discriminator} for f in os.listdir("miis") if os.path.isfile(os.path.join("miis", f))]
         if request.args:
             page = int(request.args.get("page"))
             if page == 0:
@@ -31,7 +32,7 @@ def load_miis():
                 return {"miis": miis[page: page + 10]}
         else:
             return make_response({}, 400)
-        
+
 if __name__ == "__main__":
     # In production, these are served by a reverse proxy.
     app.static_folder = "static"
