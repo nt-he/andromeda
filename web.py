@@ -15,7 +15,7 @@ class Mii:
 
 @app.route('/')
 def home():
-    return render_template("home.html")
+    return render_template("home.html.jinja2")
 @app.route("/load")
 def load_miis():
         miis = [f for f in os.listdir("miis") if os.path.isfile(os.path.join("miis", f))]
