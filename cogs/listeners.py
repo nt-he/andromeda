@@ -118,6 +118,10 @@ class Listeners(commands.Cog):
             region = ":flag_us: US West"
         elif region == "us-central":
             region = ":flag_us: US Central"
+        elif region == "us-east":
+            region = ":flag_us: US East"
+        elif region == "russia":
+            region = ":flag_ru: Russia"
 
         embed = discord.Embed(color=0x7289DA, description=f"I was just added to **`{guild}`**")
         embed.add_field(name="Name", value=name, inline=True)
@@ -168,25 +172,33 @@ class Listeners(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
+        if message.author == self.bot.user:
+            return
+        if message.author.bot:
+            return
+
         if message.content != "e":
             if message.channel.id == 806378095334391879:
                 await message.delete()
 
         if message.content == "sans pee pee":
-            await message.send("sans pee pee")
+            await message.channel.send("sans pee pee")
         
-        if message.author == self.bot.user:
-            return
-        elif str(message.channel.type) == "private": 
+        if str(message.channel.type) == "private": 
             channel = self.bot.get_channel(821432334317912125)
             embed = discord.Embed(color=discord.Color.blurple(), description=message.content)
             embed.set_author(name=f"'{message.author.display_name}#{message.author.discriminator}'' says...", icon_url=message.author.avatar_url)
             await channel.send(embed=embed)
 
         if message.content.startswith("creeper"):
-            await message.send("aww man")
+            await message.channel.send("aww man")
         elif message.content.startswith("Creeper"):
-            await message.send("Aww Man")
+            await message.channel.send("Aww Man")
+
+        if message.content.startswith("fock") or message.content.startswith("Fock"):
+            await message.channel.send("fock", file=discord.File('fock.mp3'))
+        if message.content.startswith("quality fock") or message.content.startswith("Quality Fock"):
+            await message.channel.send("quality fock", file=discord.File('quality_fock.mp3'))
 
 
     @commands.Cog.listener()

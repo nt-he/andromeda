@@ -15,7 +15,7 @@ class Weather(commands.Cog):
         self.hourlyforecast.start()
         self.fivedayforecast.start()
 
-    @tasks.loop(seconds=3600)
+    @tasks.loop(seconds=2400)
     async def hourlyforecast(self):
         await self.bot.wait_until_ready()
         load_dotenv()
@@ -27,7 +27,7 @@ class Weather(commands.Cog):
         embed.add_field(name="Sky", value=f"`{weather.current.sky_text}`", inline=True)
         embed.add_field(name="Temp", value=f"`{weather.current.temperature}°C`", inline=True)
 
-        await channel.send("<@729135459405529118>", embed=embed)
+        await channel.send(embed=embed)
         await client.close()
 
     @tasks.loop(seconds=345600)
