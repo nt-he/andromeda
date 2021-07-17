@@ -24,9 +24,8 @@ def upgrade():
     sa.Column('discriminator', sa.String(length=4), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
-    op.alter_column('users', 'guild',
-               existing_type=sa.INTEGER(),
-               nullable=False)
+    with op.batch_alter_table("users") as batch_op:
+        batch_op.add_column(sa.Column('guild', sa.INTEGER(), nullable=True),)
     # ### end Alembic commands ###
 
 
