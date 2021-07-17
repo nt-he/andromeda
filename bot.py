@@ -6,8 +6,11 @@ from os import listdir
 from os.path import isfile, join
 import traceback
 
+from sqlalchemy.engine import create_engine
+from bot_types import DbSession
 load_dotenv()
-
+engine = create_engine(os.getenv('SQLALCHEMY_URI'))
+db = DbSession(engine)
 def get_prefix(bot, message):
     prefixes = ['o.']
     if not message.guild:
