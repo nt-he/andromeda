@@ -8,7 +8,7 @@ class User(Base):
     discord_id = db.Column(db.Integer, nullable=False)
     strikes = db.Column(db.Integer, default=0)
     muted = db.Column(db.Boolean, default=False)
-    guild = db.Column(db.Integer, nullable=False)
+    guild = db.Column(db.Integer)
         
 class CachedUser(Base):
     __tablename__ = "cached_users"
