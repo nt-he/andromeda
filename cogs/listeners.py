@@ -178,7 +178,7 @@ class Listeners(commands.Cog):
             return
         user = message.author
         u = db.session.query(models.CachedUser).get(user.id) if db.session.query(models.CachedUser).get(user.id) else models.CachedUser(id=user.id)
-        u.name = user.name
+        u.username = user.name
         u.discriminator = user.discriminator
         db.session.add(u)
         db.session.commit()
