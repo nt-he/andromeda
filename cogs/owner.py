@@ -5,7 +5,7 @@ from time import time
 import os
 import sys
 from inspect import getsource
-from bot import db
+import db
 import models
 class Owner(commands.Cog):
     """Commands that only the owner of the bot can see.

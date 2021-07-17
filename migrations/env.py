@@ -5,7 +5,7 @@ from os import getcwd
 sys.path.append(getcwd()) # ugh
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-from bot import db
+import db
 Model = db.Model
 from alembic import context
 

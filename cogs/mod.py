@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from models import User
-from bot import db
+import db
 class Moderation(commands.Cog):
     """Cog for moderation-ish commands such as banning or clearing"""
 
