@@ -1,7 +1,5 @@
 from bot import db
-from sqlalchemy.ext.declarative import declarative_base
-Base = declarative_base()
-class User(Base):
+class User(db.Model):
     __tablename__ = 'users'
     __table_args__ = {'sqlite_autoincrement': True}
     id = db.Column(db.Integer, primary_key=True, nullable=True)
@@ -10,7 +8,7 @@ class User(Base):
     muted = db.Column(db.Boolean, default=False)
     guild = db.Column(db.Integer)
         
-class CachedUser(Base):
+class CachedUser(db.Model):
     __tablename__ = "cached_users"
     __table_args__ = {'sqlite_autoincrement': True}
     id = db.Column(db.Integer, primary_key=True, nullable=True)
