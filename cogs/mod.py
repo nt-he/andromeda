@@ -105,7 +105,7 @@ class Moderation(commands.Cog):
     async def strike(self, ctx, member: discord.Member):
         """Strikes a member"""
         user_query = db.session.query(User).filter_by(discord_id=member.id, guild=ctx.guild.id)
-        if user_query != None:
+        if user_query.first() != None:
             user = user_query.first()
             user.strikes += 1
         else:
