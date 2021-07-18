@@ -112,7 +112,30 @@ class Moderation(commands.Cog):
             user = User(discord_id=member.id, guild=ctx.guild.id, strikes=1)
         db.session.add(user)
         db.session.commit()
-
+        await ctx.send("**{}** has been striked".format(member.mention))
+    @commands.command()
+    @commands.has_permissions(kick_members=True)
+    async def check(self, ctx, member: discord.User):
+        """Checks a member's information"""
+        user_query = db.session.query(User).filter_by(discord_id=member.id, guild=ctx.guild.id)
+        if user_query.first() != None:
+            user = user_query.first()
+            strike_count = user.strikes
+        try:
+            ctx.guild.get_ban(member.id)
+            banned = "Yes"
+        except discord.NotFound:
+            banned = "No"
+        if ctx.guild in member.mutual_guilds:
+            mutual = "Yes"
+        else:
+            mutual = "No"
+        embed = discord.Embed(title="User Information", color=0xff0000)
+        embed.set_author(name=f"{ctx.author.name}#{ctx.author.discriminator}", icon_url=ctx.author.avatar_url)
+        embed.add_field(name="Strikes", value=str(strike_count), inline=True)
+        embed.add_field(name="Banned?", value=banned, inline=True)
+        embed.add_field(name="In this server?", value=mutual, inline=True)
+        await ctx.send(embed=embed)
         
 def setup(bot):
     bot.add_cog(Moderation(bot))
