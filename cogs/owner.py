@@ -7,14 +7,19 @@ import sys
 from inspect import getsource
 from bot import db
 import models
+import traceback
+import dotenv
+from pprint import pprint
+from io import StringIO
 class Owner(commands.Cog):
     """Commands that only the owner of the bot can see.
     Mainly just cog maintenence stuff."""
 
     def __init__(self, bot):
         self.bot = bot
-
-
+        dotenv.load_dotenv()
+        self.trusted_users = os.environ.get("TRUSTED_USERS").split(',') if os.environ.get("TRUSTED_USERS") else [self.bot.owner_id]
+        self.trusted_users = [int(i) for i in self.trusted_users]
     @commands.command(name='load', hidden=True)
     @commands.is_owner()
     async def cogload(self, ctx, *, cog: str):
@@ -238,6 +243,23 @@ You can also type o.help command for more info on an owner command.
         db.session.add(u)
         db.session.commit()
         await ctx.send("Cached user.")
+
+    @commands.command()
+    async def eval_sql(self, ctx, *, code: str):
+        """Evaluates a SQL statement"""
+        if ctx.author.id in self.trusted_users:
+            try:
+                out = db._engine.execute(code)
+            except Exception as e:
+                await ctx.send(f"An error has occured:\n```{e}```")
+                return
+            out_dict = out.__dict__
+            output = StringIO()
+            pprint(out_dict, stream=output)
+            await ctx.send(f"```py\n{output.getvalue()}```")
+        else:
+            await ctx.send("You are not allowed to use this command.")
+
         
 
 
