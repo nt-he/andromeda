@@ -122,7 +122,7 @@ class Moderation(commands.Cog):
             user = user_query.first()
             strike_count = user.strikes
         try:
-            ctx.get_ban(member.id)
+            ctx.guild.fetch_ban(member.id)
             banned = "Yes"
         except discord.NotFound:
             banned = "No"
