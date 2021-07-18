@@ -133,7 +133,7 @@ class Moderation(commands.Cog):
         else:
             mutual = "No"
         embed = discord.Embed(title="User Information", color=0xff0000)
-        embed.set_author(name=f"{ctx.author.name}#{ctx.author.discriminator}", icon_url=ctx.author.avatar_url)
+        embed.set_author(name=f"{member.name}#{member.discriminator}", icon_url=member.avatar_url)
         embed.add_field(name="Strikes", value=str(strike_count), inline=True)
         embed.add_field(name="Banned?", value=banned, inline=True)
         embed.add_field(name="In this server?", value=mutual, inline=True)
