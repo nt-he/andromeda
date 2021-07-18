@@ -11,6 +11,5 @@ class Filter(commands.Cog):
         for badword in badwords:
             if badword.search(message.content):
                 await message.delete()
-        await self.bot.process_commands(message)
 def setup(bot):
     bot.add_cog(Filter(bot))

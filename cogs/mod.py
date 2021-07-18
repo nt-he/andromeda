@@ -112,7 +112,7 @@ class Moderation(commands.Cog):
             user = User(discord_id=member.id, guild=ctx.guild.id, strikes=1)
         db.session.add(user)
         db.session.commit()
-        await ctx.send("**{}** has been striked".format(member.mention))
+        await ctx.send("**{}** has been struck".format(member.mention))
     @commands.command()
     @commands.has_permissions(kick_members=True)
     async def check(self, ctx, member: discord.User):
@@ -137,7 +137,6 @@ class Moderation(commands.Cog):
         embed.add_field(name="Strikes", value=str(strike_count), inline=True)
         embed.add_field(name="Banned?", value=banned, inline=True)
         embed.add_field(name="In this server?", value=mutual, inline=True)
-        print("sending embed")
         await ctx.send(embed=embed)
         
 def setup(bot):
