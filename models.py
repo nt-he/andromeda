@@ -12,5 +12,5 @@ class CachedUser(db.Model):
     __tablename__ = "cached_users"
     __table_args__ = {'sqlite_autoincrement': True}
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    username = db.Column(db.String(32), nullable=True)
-    discriminator = db.Column(db.String(4), nullable=True)
+    username = db.Column(db.String(32), nullable=True, primary_key=False)
+    discriminator = db.Column(db.String(4), nullable=True, primary_key=False)
