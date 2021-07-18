@@ -121,8 +121,10 @@ class Moderation(commands.Cog):
         if user_query.first() != None:
             user = user_query.first()
             strike_count = user.strikes
+        else:
+            strike_count = 0
         try:
-            ctx.guild.fetch_ban(member.id)
+            await ctx.guild.fetch_ban(member)
             banned = "Yes"
         except discord.NotFound:
             banned = "No"
@@ -135,6 +137,7 @@ class Moderation(commands.Cog):
         embed.add_field(name="Strikes", value=str(strike_count), inline=True)
         embed.add_field(name="Banned?", value=banned, inline=True)
         embed.add_field(name="In this server?", value=mutual, inline=True)
+        print("sending embed")
         await ctx.send(embed=embed)
         
 def setup(bot):
