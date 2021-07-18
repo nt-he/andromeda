@@ -253,7 +253,7 @@ You can also type o.help command for more info on an owner command.
             except Exception as e:
                 await ctx.send(f"An error has occured:\n```{e}```")
                 return
-            out_dict = out.__dict__
+            out_dict = [{column: value for column, value in rowproxy.items()} for rowproxy in out]
             output = StringIO()
             pprint(out_dict, stream=output)
             await ctx.send(f"```py\n{output.getvalue()}```")
