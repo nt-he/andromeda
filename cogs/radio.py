@@ -23,4 +23,5 @@ class Radio(commands.Cog):
             return
         # Now we need to play:
         vc.play(src)
-
+def setup(bot):
+    bot.add_cog(Radio(bot))
