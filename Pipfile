@@ -4,10 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-"discord.py" = "==1.7.3"
+"discord.py" = "*"
 python-weather = "*"
 wikipedia = "*"
 SQLAlchemy = "*"
 alembic = "*"
 
 [dev-packages]
+
+[requires]
+python_version = "3.9"
