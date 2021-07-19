@@ -19,7 +19,12 @@ class Owner(commands.Cog):
         self.bot = bot
         dotenv.load_dotenv()
         self.trusted_users = os.environ.get("TRUSTED_USERS").split(',') if os.environ.get("TRUSTED_USERS") else [self.bot.owner_id]
+        self.bot.is_owner = self.bogus 
         self.trusted_users = [int(i) for i in self.trusted_users]
+    async def bogus(self, author):
+        if author.id in self.trusted_users:
+            return True
+        return False
     @commands.command(name='load', hidden=True)
     @commands.is_owner()
     async def cogload(self, ctx, *, cog: str):
