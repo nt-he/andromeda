@@ -16,9 +16,8 @@ class Radio(commands.Cog):
         station = station.replace("/", "") # Delete any slashes for safety
         # Now we create an audio source:
         src = FFmpegOpusAudio(source=join("radio", f"{station}.mp3"))
-        vc = None # VSC was complaining about this being undefined
         if ctx.author.voice is not None:
-            await vc = ctx.author.voice.channel.connect()
+            vc = await ctx.author.voice.channel.connect()
         else:
             await ctx.send("You need to be in a voice channel to play a radio station")
             return
