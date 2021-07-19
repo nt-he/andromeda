@@ -250,20 +250,18 @@ You can also type o.help command for more info on an owner command.
         await ctx.send("Cached user.")
 
     @commands.command()
+    @commands.is_owner()
     async def eval_sql(self, ctx, *, code: str):
         """Evaluates a SQL statement"""
-        if ctx.author.id in self.trusted_users:
-            try:
-                out = db._engine.execute(code)
-            except Exception as e:
-                await ctx.send(f"An error has occured:\n```{e}```")
-                return
-            out_dict = [{column: value for column, value in rowproxy.items()} for rowproxy in out]
-            output = StringIO()
-            pprint(out_dict, stream=output)
-            await ctx.send(f"```py\n{output.getvalue()}```")
-        else:
-            await ctx.send("You are not allowed to use this command.")
+        try:
+            out = db._engine.execute(code)
+        except Exception as e:
+            await ctx.send(f"An error has occured:\n```{e}```")
+            return
+        out_dict = [{column: value for column, value in rowproxy.items()} for rowproxy in out]
+        output = StringIO()
+        pprint(out_dict, stream=output)
+        await ctx.send(f"```py\n{output.getvalue()}```")
 
         
 
