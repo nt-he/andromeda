@@ -10,6 +10,7 @@ wikipedia = "*"
 SQLAlchemy = "*"
 alembic = "*"
 python-dotenv = "*"
+youtube-dl = "*"
 
 [dev-packages]
 
