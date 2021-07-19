@@ -9,6 +9,7 @@ python-weather = "*"
 wikipedia = "*"
 SQLAlchemy = "*"
 alembic = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
