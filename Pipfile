@@ -9,7 +9,6 @@ python-weather = "*"
 wikipedia = "*"
 SQLAlchemy = "*"
 alembic = "*"
-cryptography = "2.3"
 
 [dev-packages]
 
