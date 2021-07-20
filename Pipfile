@@ -12,6 +12,7 @@ alembic = "*"
 python-dotenv = "*"
 youtube-dl = "*"
 pynacl = "*"
+uwsgi = {version = "*", markers = "platform_system == 'linux'"}
 
 [dev-packages]
 
