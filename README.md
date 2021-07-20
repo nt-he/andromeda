@@ -18,3 +18,6 @@ Run `alembic upgrade head`
 
 ## Running
 Oscie Bot 3 uses a Pipenv. In order to run the bot, you can use `pipenv install`, to install dependencies, and then you can run `pipenv run python bot.py` to run the bot.
+
+## Contributing
+If you are looking to contribute, please note that because there are other devs helping too, meaning we require that **any new packages that are required must be installed through `pipenv install <package>`**, otherwise you will break the deployment for others.
