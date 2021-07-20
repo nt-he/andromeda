@@ -15,3 +15,6 @@ Unless you have cloned `https://github.com/mogade/badwords`, the cog will be dis
 
 ## Configuring the database
 Run `alembic upgrade head`
+
+## Running
+Oscie Bot 3 uses a Pipenv. In order to run the bot, you can use `pipenv install`, to install dependencies, and then you can run `pipenv run python bot.py` to run the bot.
