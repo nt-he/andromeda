@@ -41,22 +41,6 @@ class Radio(commands.Cog):
             return
         # Now we need to play:
         ctx.voice_client.play(src, after=lambda e: print('Player error: %s' % e) if e else None)
-    @commands.command()
-    async def stop(self, ctx):
-        """Disconnect from the radio station"""
-        ctx.voice_client.stop()
-        await ctx.voice_client.disconnect()
-    @commands.command()
-    async def join(self, ctx, *, channel: discord.VoiceChannel=None):
-        """Join a voice channel"""
-        if channel is None:
-            channel = ctx.author.voice.channel
-        if ctx.voice_client is not None:
-            await ctx.voice_client.move_to(channel)
-        else:
-            await channel.connect()
-
-
 
 
 def setup(bot):
