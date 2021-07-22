@@ -3,18 +3,21 @@ from discord.ext import commands
 from os.path import join
 import requests
 from discord import FFmpegPCMAudio
-import asyncio
 from aiohttp import ClientSession
-import binascii
 class StreamingMP3Source(discord.AudioSource):
     def __init__(self, url):
         self.url = url
-        self.sess = requests.Session().get(self.url, stream=True)
+        self.sess = requests.get(self.url, stream=True)
+        self.buffers = []
         print("'mogus")
         super().__init__()
     def read(self):
-        thingy = self.sess.raw.read(20)
-        return thingy
+        if len(self.buffers) < 5:
+            # Buffer queue is not full.
+            # Get more data.
+            for n in range(0, 5 - len(self.buffers)):
+                self.buffers.append(self.sess.raw.read(1764000))
+        return self.buffers.pop()
     def is_opus(self):
         return False
     def cleanup(self):
@@ -29,6 +32,7 @@ class Radio(commands.Cog):
     async def tune_in(self, ctx):
         """Tune in to a radio station"""
         # Now we create an audio source:
+        
         src = StreamingMP3Source("http://antenna5stream.neotel.mk:8000/live128")
         if ctx.voice_client is None and ctx.author.voice is not None:
             await ctx.author.voice.channel.connect()
@@ -49,6 +53,7 @@ and send them this information:
 > Author VC: {ctx.author.voice.channel.id}
 > Bot VC: {ctx.voice_client.channel.id}
 """)
+        await ctx.send("Source created.")
         # Now we need to play:
         ctx.voice_client.play(src, after=lambda e: print('Player error: %s' % e) if e else None)
     @commands.command()
