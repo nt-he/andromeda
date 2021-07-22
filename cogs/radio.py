@@ -1,43 +1,23 @@
-import discord
 from discord.ext import commands
 from os.path import join
-import requests
-from discord import FFmpegPCMAudio
-from aiohttp import ClientSession
-class StreamingMP3Source(discord.AudioSource):
-    def __init__(self, url):
-        self.url = url
-        self.sess = requests.get(self.url, stream=True)
-        self.buffers = []
-        print("'mogus")
-        super().__init__()
-    def read(self):
-        if len(self.buffers) < 5:
-            # Buffer queue is not full.
-            # Get more data.
-            for n in range(0, 5 - len(self.buffers)):
-                self.buffers.append(self.sess.raw.read(1764000))
-        return self.buffers.pop()
-    def is_opus(self):
-        return False
-    def cleanup(self):
-        print("'mogus III")
-
+from discord.player import FFmpegOpusAudio
+import discord
 class Radio(commands.Cog):
     """Radio"""
     def __init__(self, bot):
         self.bot = bot
     
     @commands.command()
-    async def tune_in(self, ctx):
+    async def tune_in(self, ctx, station):
         """Tune in to a radio station"""
+        await ctx.send(f"Tuning in to {station}")
+        # Internally, stations are stored as xxx_x.mp3, rather than xxx.x, so we need to replace dots with underscores
+        station = station.replace('.', '_')
+        station = station.replace("/", "") # Delete any slashes for safety
         # Now we create an audio source:
-        
-        src = StreamingMP3Source("http://antenna5stream.neotel.mk:8000/live128")
+        src = FFmpegOpusAudio(source=join("radio", f"{station}.mp3"))
         if ctx.author.voice is not None:
-            await ctx.author.voice.channel.connect()
-        elif ctx.voice_client is not None:
-            await ctx.voice.client.move_to(ctx.author.voice.channel)
+            vc = await ctx.author.voice.channel.connect()
         else:
             await ctx.send(f"""**A serious error has occured**
 Report this to <@{self.bot.owner_id}>, 
@@ -64,6 +44,7 @@ and send them this information:
             await ctx.voice_client.move_to(channel)
         else:
             await channel.connect()
+
 
 
 
