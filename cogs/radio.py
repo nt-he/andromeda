@@ -36,11 +36,36 @@ class Radio(commands.Cog):
         src = StreamingMP3Source("http://antenna5stream.neotel.mk:8000/live128")
         if ctx.author.voice is not None:
             await ctx.author.voice.channel.connect()
+        elif ctx.voice_client is not None:
+            await ctx.voice.client.move_to(ctx.author.voice.channel)
         else:
-            await ctx.send("You need to be in a voice channel to play a radio station")
-            return
+            await ctx.send(f"""**A serious error has occured**
+Report this to <@{self.bot.owner_id}>, 
+and send them this information:
+> Line number: 41
+> Reason: Bottom of if else hit
+> Variables:
+> Author VC: {ctx.author.voice.channel.id}
+> Bot VC: {ctx.voice_client.channel.id}
+""")
         # Now we need to play:
         ctx.voice_client.play(src, after=lambda e: print('Player error: %s' % e) if e else None)
+    @commands.command()
+    async def stop(self, ctx):
+        """Disconnect from the radio station"""
+        ctx.voice_client.stop()
+        await ctx.voice_client.disconnect()
+    @commands.command()
+    async def join(self, ctx, *, channel: discord.VoiceChannel=None):
+        """Join a voice channel"""
+        if channel is None:
+            channel = ctx.author.voice.channel
+        if ctx.voice_client is not None:
+            await ctx.voice_client.move_to(channel)
+        else:
+            await channel.connect()
+
+
 
 
 def setup(bot):
