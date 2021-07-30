@@ -31,7 +31,7 @@ and send them this information:
         # Now we need to play:
         ctx.voice_client.play(src, after=lambda e: print('Player error: %s' % e) if e else None)
     @commands.command()
-    async def stop(self, ctx):
+    async def tune_out(self, ctx):
         """Disconnect from the radio station"""
         ctx.voice_client.stop()
         await ctx.voice_client.disconnect()
