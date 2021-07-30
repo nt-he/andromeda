@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Boolean
+from sqlalchemy import Column, Integer, Boolean, String
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 class DbSession:
@@ -10,3 +10,4 @@ class DbSession:
         self.Column = Column
         self.Integer = Integer
         self.Boolean = Boolean
+	self.String = String
