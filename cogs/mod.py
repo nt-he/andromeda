@@ -16,7 +16,7 @@ class Moderation(commands.Cog):
         await ctx.channel.purge(limit=amount + 1)
         await ctx.send(f":+1: {amount} messages deleted", delete_after=3)
 
-        embed = discord.Embed(color=0x7289DA, description=f"<:bin:848554827545444402> - {amount} messages deleted in **`{ctx.guild}`**")
+        embed = discord.Embed(color=0x7289DA, description=f"<:bin:848554827545444402> - {amount} messages deleted in **`{ctx.guild}`** ({ctx.author})")
         await logchannel.send(embed = embed)
 
     @commands.command()
