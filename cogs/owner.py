@@ -213,7 +213,7 @@ class Owner(commands.Cog):
     async def ownerhelp(self, ctx):
         """Sends all the owner commands"""
         await ctx.send("""```
-Oscie Bot 3 is a multi-use bot, that has many uses. It uses discord.ext and a cog system. Thank you for using me :D
+Andromeda is a multi-use bot, that has many uses. It uses discord.ext and a cog system. Thank you for using me :D
 
 These are commands that only the owner of the bot can see.
 Mainly just cog maintenence stuff.
