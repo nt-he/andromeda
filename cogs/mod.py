@@ -16,7 +16,7 @@ class Moderation(commands.Cog):
         await ctx.channel.purge(limit=amount + 1)
         await ctx.send(f":+1: {amount} messages deleted", delete_after=3)
 
-        embed = discord.Embed(color=0x7289DA, description=f"<:bin:848554827545444402> - {amount} messages deleted in **`{ctx.guild}`**")
+        embed = discord.Embed(color=0x7289DA, description=f"<:bin:848554827545444402> - {amount} messages deleted in **`{ctx.guild}`** ({ctx.author})")
         await logchannel.send(embed = embed)
 
     @commands.command()
@@ -104,15 +104,40 @@ class Moderation(commands.Cog):
     @commands.has_permissions(kick_members=True)
     async def strike(self, ctx, member: discord.Member):
         """Strikes a member"""
-        user_query = User.query.filter_by(discord_id=member.id, guild=ctx.guild.id)
-        if user_query != None:
+        user_query = db.session.query(User).filter_by(discord_id=member.id, guild=ctx.guild.id)
+        if user_query.first() != None:
             user = user_query.first()
             user.strikes += 1
         else:
             user = User(discord_id=member.id, guild=ctx.guild.id, strikes=1)
         db.session.add(user)
         db.session.commit()
-
+        await ctx.send("**{}** has been struck".format(member.mention))
+    @commands.command()
+    @commands.has_permissions(kick_members=True)
+    async def check(self, ctx, member: discord.User):
+        """Checks a member's information"""
+        user_query = db.session.query(User).filter_by(discord_id=member.id, guild=ctx.guild.id)
+        if user_query.first() != None:
+            user = user_query.first()
+            strike_count = user.strikes
+        else:
+            strike_count = 0
+        try:
+            await ctx.guild.fetch_ban(member)
+            banned = "Yes"
+        except discord.NotFound:
+            banned = "No"
+        if ctx.guild in member.mutual_guilds:
+            mutual = "Yes"
+        else:
+            mutual = "No"
+        embed = discord.Embed(title="User Information", color=0xff0000)
+        embed.set_author(name=f"{member.name}#{member.discriminator}", icon_url=member.avatar_url)
+        embed.add_field(name="Strikes", value=str(strike_count), inline=True)
+        embed.add_field(name="Banned?", value=banned, inline=True)
+        embed.add_field(name="In this server?", value=mutual, inline=True)
+        await ctx.send(embed=embed)
         
 def setup(bot):
     bot.add_cog(Moderation(bot))

@@ -7,14 +7,24 @@ import sys
 from inspect import getsource
 from bot import db
 import models
+import traceback
+import dotenv
+from pprint import pprint
+from io import StringIO
 class Owner(commands.Cog):
     """Commands that only the owner of the bot can see.
     Mainly just cog maintenence stuff."""
 
     def __init__(self, bot):
         self.bot = bot
-
-
+        dotenv.load_dotenv()
+        self.trusted_users = os.environ.get("TRUSTED_USERS").split(',') if os.environ.get("TRUSTED_USERS") else [self.bot.owner_id]
+        self.bot.is_owner = self.bogus 
+        self.trusted_users = [int(i) for i in self.trusted_users]
+    async def bogus(self, author):
+        if author.id in self.trusted_users:
+            return True
+        return False
     @commands.command(name='load', hidden=True)
     @commands.is_owner()
     async def cogload(self, ctx, *, cog: str):
@@ -210,7 +220,7 @@ class Owner(commands.Cog):
     async def ownerhelp(self, ctx):
         """Sends all the owner commands"""
         await ctx.send("""```
-Oscie Bot 3 is a multi-use bot, that has many uses. It uses discord.ext and a cog system. Thank you for using me :D
+Andromeda is a multi-use bot, that has many uses. It uses discord.ext and a cog system. Thank you for using me :D
 
 These are commands that only the owner of the bot can see.
 Mainly just cog maintenence stuff.
@@ -232,12 +242,27 @@ You can also type o.help command for more info on an owner command.
     @commands.is_owner()
     async def cache(self, ctx, user: discord.User):
         """Caches a user's info into a database."""
-        u = models.CachedUser.query(id=user.id) if models.CachedUser.query(id=user.id) else models.CachedUser(id=user.id)
+        u = db.session.query(models.CachedUser).get(id=user.id) if db.session.query(models.CachedUser).get(id=user.id) else models.CachedUser(id=user.id)
         u.name = user.name
         u.discriminator = user.discriminator
         db.session.add(u)
         db.session.commit()
         await ctx.send("Cached user.")
+
+    @commands.command()
+    @commands.is_owner()
+    async def eval_sql(self, ctx, *, code: str):
+        """Evaluates a SQL statement"""
+        try:
+            out = db._engine.execute(code)
+        except Exception as e:
+            await ctx.send(f"An error has occured:\n```{e}```")
+            return
+        out_dict = [{column: value for column, value in rowproxy.items()} for rowproxy in out]
+        output = StringIO()
+        pprint(out_dict, stream=output)
+        await ctx.send(f"```py\n{output.getvalue()}```")
+
         
 
 

@@ -13,8 +13,8 @@ function loadItems(){
             for (var i = 0; i < data.miis.length; i++) {
                 let template_clone = template.content.cloneNode(true);
 
-                template_clone.querySelector("#username").innerHTML = "<p class=\"text-muted\">uhh idk how to do this</p>";
-                template_clone.querySelector("#mii").attributes.src.value = "/miis/" + data.miis[i];
+                template_clone.querySelector("#username").innerHTML = `<p class=\"text-muted\">${data.miis[i].username}</p>`;
+                template_clone.querySelector("#mii").attributes.src.value = "/miis/" + data.miis[i].loc;
                 scroller.appendChild(template_clone);
                 counter += 1;
             }

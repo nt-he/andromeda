@@ -1,0 +1,13 @@
+# This script requires the repository to be cloned into /usr/bin/scripts/Andromeda
+[Unit]
+Description=Andromeda
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=5
+User=root
+WorkingDirectory=/usr/bin/scripts/Andromeda
+ExecStart=/usr/bin/env pipenv run uwsgi --socket 127.0.0.1:3031 --wsgi-file /usr/bin/scripts/Andromeda/web.py --callable app --master --process 4 --threads 2 --stats 127.0.0.1:9191 --enable-threads

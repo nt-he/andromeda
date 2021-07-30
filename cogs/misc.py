@@ -10,7 +10,8 @@ from bs4 import BeautifulSoup
 from discord.ext import commands
 
 from traceback import format_exception
-
+import models
+from bot import db
 
 class Misc(commands.Cog):
     """Commands that don't really have a category that fits them."""
@@ -347,7 +348,15 @@ Use this command with "o.roleme add" or "o.roleme remove"
     async def google(self, ctx, *, query : str):
         result = query.replace(" ", "+")
         await ctx.send(f"https://lmgtfy.app/#gsc.tab=0&gsc.q={result}")
-
+    @commands.command()
+    async def check_cache(self, ctx, user: discord.User):
+        """Checks info a user in the bot's cache"""
+        cache_query = db.session.query(models.CachedUser).get(user.id)
+        if cache_query == None:
+            await ctx.send("User isn't cached")
+            return
+        else:
+            await ctx.send(f"{cache_query.username}#{cache_query.discriminator} is cached.")
 
 def setup(bot):
     bot.add_cog(Misc(bot))

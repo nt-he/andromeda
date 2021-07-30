@@ -4,11 +4,12 @@ import datetime
 import models
 from discord.ext.commands.core import bot_has_permissions
 from bot import db
-noteslegal = "¹X signifies version.\nAs of 06/2021, there are 3 versions (1, 2 and 3).\n\n²Date of last update\nThis message will only be updated for an important reason, and we can make changes to this without informing you."
+
+noteslegal = "¹X signifies version.\nAs of 08/2021, there are 3 versions (1, 2 and 3).\n\n²Date of last update\nThis message will only be updated for an important reason, and we can make changes to this without informing you."
 
 linkslegal = "[Discord Terms of Service](https://dis.gd/terms) ・ [Discord Community Guidelines](https://discord.com/guidelines) ・ [Discord API Legal](https://discord.com/developers/docs/legal) ・ [Discord API Policy](https://discord.com/developers/docs/policy) ・ [Discord Privacy Policy](https://discord.com/privacy)\n\n[Bot Page](https://oscie.net/bot) ・ [Bot Invite Page](https://bot.oscie.net) ・ [Oscie Website](https://oscie.net)"
 
-desclegal = "By adding my bot (Oscie Bot X¹) to your guild, you allow me (as the owner) to see the guild name, description, icon, member count, and any other information disclosable by the Discord API. Read more about Discord API's Terms and Conditions at [Discord Developer Policy](https://discord.com/developers/docs/policy) and [Discord Developer Legal](https://discord.com/developers/docs/legal). You may only use this bot in a way that follows the discord guidelines and terms of service, read [Discord TOS](https://dis.gd/terms) for more info. Message last updated²: 2021.06.18.\n\nMessages and Audit Logs will only be monitored in ``no thoughts, head empty (804449200921509913)``"
+desclegal = "By adding my bot Andromeda (Formerly Oscie Bot X¹) to your guild, you allow me (as the owner) to see the guild name, description, icon, member count, and any other information disclosable by the Discord API. Read more about Discord API's Terms and Conditions at [Discord Developer Policy](https://discord.com/developers/docs/policy) and [Discord Developer Legal](https://discord.com/developers/docs/legal). You may only use this bot in a way that follows the discord guidelines and terms of service, read [Discord TOS](https://dis.gd/terms) for more info. Message last updated²: 2021.08.01.\n\nMessages and Audit Logs will only be monitored in ``no thoughts, head empty (804449200921509913)``"
 
 
 class Listeners(commands.Cog):
@@ -142,10 +143,10 @@ class Listeners(commands.Cog):
         if syschannel == None:
             return
         else:
-            await syschannel.send(f":wave: Hey, I'm Oscie Bot 3! Thank you for inviting me to your server. To get started, run `o.help` in either DMs or in {guild}. First, you need to be aware of some stuff. Please read the embed below:", embed = embed3)
+            await syschannel.send(f":wave: Hey, I'm Andromeda! Thank you for inviting me to your server. To get started, run `o.help` in either DMs or in {guild}. First, you need to be aware of some stuff. Please read the embed below:", embed = embed3)
             await syschannel.send(f"{owner.mention} please read the above.")
         
-        #await ownerdm.send(f":wave: Hey, I'm Oscie Bot 3! Thank you for inviting me to {guild}}. To get started, run `o.help` in either DMs or in {guild}. First, you need to be aware of some stuff. Please read the embed below:", embed = anembed)
+        #await ownerdm.send(f":wave: Hey, I'm Andromeda! Thank you for inviting me to {guild}}. To get started, run `o.help` in either DMs or in {guild}. First, you need to be aware of some stuff. Please read the embed below:", embed = anembed)
             
 
 
@@ -177,8 +178,8 @@ class Listeners(commands.Cog):
         if message.author.bot:
             return
         user = message.author
-        u = models.CachedUser.query(id=user.id) if models.CachedUser.query(id=user.id) else models.CachedUser(id=user.id)
-        u.name = user.name
+        u = db.session.query(models.CachedUser).get(user.id) if db.session.query(models.CachedUser).get(user.id) else models.CachedUser(id=user.id)
+        u.username = user.name
         u.discriminator = user.discriminator
         db.session.add(u)
         db.session.commit()
